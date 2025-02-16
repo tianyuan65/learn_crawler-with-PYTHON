@@ -49,8 +49,18 @@
   * 分析js代码
 ## 六、 urllib库的使用
 * urllib库，该库不需要安装，因为它是Python本身自带的，不像其他的库，需要去官网手动安装。
-* 主要是学习如何使用urllib来模拟浏览器，来访问服务器的数据。
-  * 
+* 主要是学习如何使用urllib来模拟浏览器，来访问服务器的数据。在这里向百度发送请求，获取百度首页的源码，并从其中获取真正想要的数据
+  * 首先导入urllib库下的request，
+    * ```import urllib.request```
+  * 其次，定义一个变量url，用于存放要访问的地址，在这里就是百度首页的地址
+    * ```url='http://www.baidu.com'```
+  * 再次，就可以向浏览器发送请求，发送请求的方法为urlopen方法，将要访问的地址作为参数传进去，即可向对应的服务器发送请求并接收服务器的反馈。
+    * ```response=urllib.request.urlopen(url)```
+    * ![urlopen方法，向服务器访问请求时调用的方法，将地址作为参数传进去即可](imgs/urlopen%E6%96%B9%E6%B3%95%EF%BC%8C%E5%90%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BF%E9%97%AE%E8%AF%B7%E6%B1%82%E6%97%B6%E8%B0%83%E7%94%A8%E7%9A%84%E6%96%B9%E6%B3%95%EF%BC%8C%E5%B0%86%E5%9C%B0%E5%9D%80%E4%BD%9C%E4%B8%BA%E5%8F%82%E6%95%B0%E4%BC%A0%E8%BF%9B%E5%8E%BB%E5%8D%B3%E5%8F%AF.png)
+  * 再次，打印接收的数据response可以发现，是有响应头、响应体和响应行等的全部数据，但需要的只是相应当中的页面的源码，因此需要调用read方法来提取页面源码，再打印可以看到输出的是字节形式的二进制数据。
+    * ![这个b代表，返回的是字节形式的二进制数据](imgs/%E8%BF%99%E4%B8%AAb%E4%BB%A3%E8%A1%A8%EF%BC%8C%E8%BF%94%E5%9B%9E%E7%9A%84%E6%98%AF%E5%AD%97%E8%8A%82%E5%BD%A2%E5%BC%8F%E7%9A%84%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%95%B0%E6%8D%AE.png)
+  * 因此在下一步需要做的，就是将这些二进制数据转换为字符串类型的数据，这一步叫做解码，解码方法为decode()，参数位置传对应页面的编码格式，在这里就是utf-8，找编码格式的话，就是charset的值。最后打印时可以发现，打印出来的结果最前面没有**b'**了，也可以看见汉字了，就意味着解码成功。
+    * ![调用decode方法并用utf-8的编码格式转换后，可以发现b没了，且可以看见汉字了，说明解码成功了](imgs/%E8%B0%83%E7%94%A8decode%E6%96%B9%E6%B3%95%E5%B9%B6%E7%94%A8utf-8%E7%9A%84%E7%BC%96%E7%A0%81%E6%A0%BC%E5%BC%8F%E8%BD%AC%E6%8D%A2%E5%90%8E%EF%BC%8C%E5%8F%AF%E4%BB%A5%E5%8F%91%E7%8E%B0b%E6%B2%A1%E4%BA%86%EF%BC%8C%E4%B8%94%E5%8F%AF%E4%BB%A5%E7%9C%8B%E8%A7%81%E6%B1%89%E5%AD%97%E4%BA%86%EF%BC%8C%E8%AF%B4%E6%98%8E%E8%A7%A3%E7%A0%81%E6%88%90%E5%8A%9F%E4%BA%86.png)
 ## 七、 请求对象的定制
 ## 八、 编解码
 * 8.1 get请求方式：urllib.parse.quote()
@@ -64,3 +74,4 @@
 ## 十四、 Handler处理器
 ## 十五、 代理服务器
 ## 十六、 cookie库
+https://github.com/tianyuan65/learn_crawler-with-PYTHON.git
