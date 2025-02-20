@@ -59,8 +59,24 @@
     * ![urlopen方法，向服务器访问请求时调用的方法，将地址作为参数传进去即可](imgs/urlopen%E6%96%B9%E6%B3%95%EF%BC%8C%E5%90%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BF%E9%97%AE%E8%AF%B7%E6%B1%82%E6%97%B6%E8%B0%83%E7%94%A8%E7%9A%84%E6%96%B9%E6%B3%95%EF%BC%8C%E5%B0%86%E5%9C%B0%E5%9D%80%E4%BD%9C%E4%B8%BA%E5%8F%82%E6%95%B0%E4%BC%A0%E8%BF%9B%E5%8E%BB%E5%8D%B3%E5%8F%AF.png)
   * 再次，打印接收的数据response可以发现，是有响应头、响应体和响应行等的全部数据，但需要的只是相应当中的页面的源码，因此需要调用read方法来提取页面源码，再打印可以看到输出的是字节形式的二进制数据。
     * ![这个b代表，返回的是字节形式的二进制数据](imgs/%E8%BF%99%E4%B8%AAb%E4%BB%A3%E8%A1%A8%EF%BC%8C%E8%BF%94%E5%9B%9E%E7%9A%84%E6%98%AF%E5%AD%97%E8%8A%82%E5%BD%A2%E5%BC%8F%E7%9A%84%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%95%B0%E6%8D%AE.png)
-  * 因此在下一步需要做的，就是将这些二进制数据转换为字符串类型的数据，这一步叫做解码，解码方法为decode()，参数位置传对应页面的编码格式，在这里就是utf-8，找编码格式的话，就是charset的值。最后打印时可以发现，打印出来的结果最前面没有**b'**了，也可以看见汉字了，就意味着解码成功。
+  * 最后，因在下一步需要做的，就是将这些二进制数据转换为字符串类型的数据，这一步叫做解码，解码方法为decode()，参数位置传对应页面的编码格式，在这里就是utf-8，找编码格式的话，就是charset的值。最后打印时可以发现，打印出来的结果最前面没有**b'**了，也可以看见汉字了，就意味着解码成功。
     * ![调用decode方法并用utf-8的编码格式转换后，可以发现b没了，且可以看见汉字了，说明解码成功了](imgs/%E8%B0%83%E7%94%A8decode%E6%96%B9%E6%B3%95%E5%B9%B6%E7%94%A8utf-8%E7%9A%84%E7%BC%96%E7%A0%81%E6%A0%BC%E5%BC%8F%E8%BD%AC%E6%8D%A2%E5%90%8E%EF%BC%8C%E5%8F%AF%E4%BB%A5%E5%8F%91%E7%8E%B0b%E6%B2%A1%E4%BA%86%EF%BC%8C%E4%B8%94%E5%8F%AF%E4%BB%A5%E7%9C%8B%E8%A7%81%E6%B1%89%E5%AD%97%E4%BA%86%EF%BC%8C%E8%AF%B4%E6%98%8E%E8%A7%A3%E7%A0%81%E6%88%90%E5%8A%9F%E4%BA%86.png)
+* urllib的1个类型6个方法
+  * 1个类型
+    * 就是认识response的数据类型，是<class 'http.client.HTTPResponse'>，简单来说就是HTTPResponse类型的，不是之前学习的那些类型，因为它是向服务器请求返回的结果，所以接下来可以用6个方法来读取其中想要的数据。
+  * 6个方法
+    * read()，如上一部分所示，就是效率比较低，也可以向其中传递数字参数，就会读取并输出那几个字节。
+      * ```
+          content=response.read(5)
+          print(content)      #b'<!DOC'
+        ```
+    * readline()，虽然会快很多，但调用readline方法只会读取一行，若需要读取全部数据时，还是不顶用。
+    * readlines()，调用readlines方法快很多，是一行一行读取的，它是把全部的数据读取完为止，且返回的依旧是字节形式的数据。
+      * ![readlines方法读取response就会快很多，前面有b，就是字节形式的数据](imgs/readlines%E6%96%B9%E6%B3%95%E8%AF%BB%E5%8F%96response%E5%B0%B1%E4%BC%9A%E5%BF%AB%E5%BE%88%E5%A4%9A%EF%BC%8C%E5%89%8D%E9%9D%A2%E6%9C%89b%EF%BC%8C%E5%B0%B1%E6%98%AF%E5%AD%97%E8%8A%82%E5%BD%A2%E5%BC%8F%E7%9A%84%E6%95%B0%E6%8D%AE.png)
+    * getcode()，response调用getcode方法，会返回状态码，如果是200就意味着，请求和反馈都没问题，就是逻辑正常。
+    * geturl()，response调用geturl方法，返回的是url地址，也就是发送了请求的服务器的地址。
+    * getheaders()，返回一些状态信息，也就是得到的反馈中响应头的信息。
+      * ![getheaders方法，返回的是服务器反馈的响应头的信息](imgs/getheaders%E6%96%B9%E6%B3%95%EF%BC%8C%E8%BF%94%E5%9B%9E%E7%9A%84%E6%98%AF%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%8F%8D%E9%A6%88%E7%9A%84%E5%93%8D%E5%BA%94%E5%A4%B4%E7%9A%84%E4%BF%A1%E6%81%AF.png)
 ## 七、 请求对象的定制
 ## 八、 编解码
 * 8.1 get请求方式：urllib.parse.quote()
