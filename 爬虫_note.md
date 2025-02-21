@@ -99,9 +99,20 @@
         content=response.read().decode('utf8')
         print(content)
       ```
+* 扩展：编码的由来
+  * 编码集的演变
+    * 最早只有127个字符被编码到早期计算机里，也就是大小写字母、数字和一些符号。这个编码表被称为ASCII编码，如A的编码是65，z的编码是122。处理中文时这些字节显然不够，且大部分中文需要两个字节，还不能和ASCII编码集有冲突。所以中国制定了GB2312编码，把中文编了进去。
+    * 即便如此世界上有上百种语言，各国有各国的标准，不可避免地会产生冲突，结果就是多语言混合的文本中，就会出现乱码。因此Unicode出现并将所有语言统一到了一套编码中，这样就会不会再出现乱码的问题。现代操作系统和大多数编程语言都支持Unicode。
 ## 八、 编解码
 * 8.1 get请求方式：urllib.parse.quote()
+  * 百度任意搜一个人，搜出来的路径只有到wd的值是这个人的信息，后面的都是广告，因此可以先声明一个url变量，并将网址的一部分，也就是到wd为止的网址赋值给url。随后，若想将汉字字符转换为Unicode编码格式，就先引入urllib.parse，因为需要调用它下面的quote方法，quote方法中传递汉字字符作为参数，并用一个变量名name接收，然后将url和name进行拼接就可以得到完整的关于一个人的搜索地址。最后正常进行请求对象定制的操作即可。
+  * 下面是因为网址路径当中不是Unicode编码导致的报错和Unicode编码时成功运行并输出的结果。
+    * ![UnicodeEncodeError，获取的字符部分已超出设定的128个字符以外](imgs/UnicodeEncodeError%EF%BC%8C%E8%8E%B7%E5%8F%96%E7%9A%84%E5%AD%97%E7%AC%A6%E9%83%A8%E5%88%86%E5%B7%B2%E8%B6%85%E5%87%BA%E8%AE%BE%E5%AE%9A%E7%9A%84128%E4%B8%AA%E5%AD%97%E7%AC%A6%E4%BB%A5%E5%A4%96.png)
+    * ![将人名转换为Unicode形式后，运行结果](imgs/%E5%B0%86%E4%BA%BA%E5%90%8D%E8%BD%AC%E6%8D%A2%E4%B8%BAUnicode%E5%BD%A2%E5%BC%8F%E5%90%8E%EF%BC%8C%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C.png)
+  * 这是调用urllib.parse下的quote方法后，将路径和Unicode编码格式的人名拼接之后，进行请求对象定制操作的结果
+    * ![urllib.parse的quote方法，用于将汉字字符转换为通用的Unicode格式](imgs/urllib.parse%E7%9A%84quote%E6%96%B9%E6%B3%95%EF%BC%8C%E7%94%A8%E4%BA%8E%E5%B0%86%E6%B1%89%E5%AD%97%E5%AD%97%E7%AC%A6%E8%BD%AC%E6%8D%A2%E4%B8%BA%E9%80%9A%E7%94%A8%E7%9A%84Unicode%E6%A0%BC%E5%BC%8F.png)
 * 8.2 get请求方式：urllib.parse.urlencode()
+  * 
 * 8.3 post请求方式
 ## 九、 ajax的get请求
 ## 十、 ajax的post请求
