@@ -87,6 +87,18 @@
     * 视频
       * 若下载的是视频，记得别下载b站的，他们做了反爬，运行了会直接报412的错，视频的后缀用.mp4，向上面一样正常传递参数运行后，在pycharm点击视频文件的话会无法播放，因为pycharm没有播放器，直接去本地文件夹，找到刚刚下载好的视频文件双击即可查看。
 ## 七、 请求对象的定制
+* UA介绍：User Agent中文名为用户代理，简称UA，它是一个特殊字符串头，使服务器能够识别客户使用的操作系统及其版本、CPU类型、浏览器及版本、浏览器内核、浏览器渲染引擎、浏览器语言、浏览器插件等。
+* 语法：request=urllib.request.Request()
+  * 这是通过UA进行的反爬，因为无法识别是否是真的浏览器，所以通过UA进行请求对象的定制，伪装成有请求头的样子。将UA拿到后声明一个名为headers的字典，将UA存进去，查看urlopen方法的底层代码可以看到urlopen方法不接收字典作为参数，urlopen方法只接收字符串和Request对象作为参数。所以需要请求对象的定制，需要调用request的Request方法来声明一个Request对象，并向其中传递服务器的url路径和字典headers作为参数即可。需要注意的是，传递参数时不能进行简化，这是因为Request方法的底层代码的缘故，源码中因为参数顺序的问题，因为url对象和headers对象中间还设置了data这个变量，所以需要关键字传参，也就是以变量名=值的格式传入即可。最后向urlopen方法中将Request对象作为参数传递进去，在想服务器发送请求并接收。
+    * ```
+        import urllib.request
+        url='https://www.baidu.com'
+        headers={'user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36'}
+        request=urllib.request.Request(url=url,headers=headers)
+        response=urllib.request.urlopen(request)
+        content=response.read().decode('utf8')
+        print(content)
+      ```
 ## 八、 编解码
 * 8.1 get请求方式：urllib.parse.quote()
 * 8.2 get请求方式：urllib.parse.urlencode()
