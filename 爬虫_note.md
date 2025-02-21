@@ -112,7 +112,24 @@
   * 这是调用urllib.parse下的quote方法后，将路径和Unicode编码格式的人名拼接之后，进行请求对象定制操作的结果
     * ![urllib.parse的quote方法，用于将汉字字符转换为通用的Unicode格式](imgs/urllib.parse%E7%9A%84quote%E6%96%B9%E6%B3%95%EF%BC%8C%E7%94%A8%E4%BA%8E%E5%B0%86%E6%B1%89%E5%AD%97%E5%AD%97%E7%AC%A6%E8%BD%AC%E6%8D%A2%E4%B8%BA%E9%80%9A%E7%94%A8%E7%9A%84Unicode%E6%A0%BC%E5%BC%8F.png)
 * 8.2 get请求方式：urllib.parse.urlencode()
-  * 
+  * urlencode方法用于处理多个参数的情况，若给一个网址添加其他信息时，可以事先将这些信息统一存储到字典中，并需要先声明一个基础路径baseUrl。其次，调用urllib.parse下的urlencode方法，将整合为字典的数据作为参数传递进去，就可以得到转换为Unicode格式的数据，用一个变量接收。随后，就可以将基础路径和转换为Unicode格式的数据进行拼接，这就是完整的请求资源的路径。再次做好UA反爬，再然后照常进行请求对象定制的操作，并打印输出。
+  * ```
+      import urllib.request
+      import urllib.parse
+      baseUrl='https://www.baidu.com/s?'
+      data={
+          'wd':'谷江山',
+          'gender':'男',
+          'job':'配音演员',
+          'location':'北京'
+      }
+      newData=urllib.parse.urlencode(data)
+      lastUrl=baseUrl+newData
+      headers={'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36'}
+      request=urllib.request.Request(url=lastUrl,headers=headers)
+      response=urllib.request.urlopen(request)
+      content=response.read().decode('utf-8')
+    ```
 * 8.3 post请求方式
 ## 九、 ajax的get请求
 ## 十、 ajax的post请求
