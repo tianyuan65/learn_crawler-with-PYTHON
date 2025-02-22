@@ -45,3 +45,4 @@ print(content)
 
 # decode方法是解码，encode方法是编码
 # 可以理解为：url，headers，data为可变化的材料，通过Request进行合成炼丹，变成了一个个性化丹药（网址），再通过urlopen将这丹药吃了（打开）
+# 这节内容：使用urllib-post的方法对参数进行爬取
