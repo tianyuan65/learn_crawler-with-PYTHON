@@ -131,6 +131,27 @@
       content=response.read().decode('utf-8')
     ```
 * 8.3 post请求方式
+  * 以网页版百度翻译为例，右键点击检查->网络后，在左侧写上需要翻译的单词(这里以spider举例)，可以说就像再加载了一遍网页一样，会有好多向服务器发送各种请求后，请求成功并返回的结果，比如名为sug的就是post请求得来的。在sug的preview中，可以查看到具体的数据data，其中我需要的是key值为kw的数据，将它存储到名为data的字典中。然后就正常声明请求地址，这次的请求地址可以在sug的请求头中找到。再用UA反爬，再调用urlencode方法传入data做参数进行编码，这次因为是post请求，所以需要对urlencode方法进行编码的数据进行进一步的编码，调用encode方法，参数传utf-8即可。继续根据流程进行请求对象定制的操作，只不过这一步骤需要多添加一个小部分。Request方法的源码中第二个参数名叫data，之前发送get请求时，只用了url和headers参数，但post请求中需要用到data参数，因此这次请求对象定制的操作，需要传递url、data和headers这三个参数。随后正常进行下一步模拟浏览器向服务器发送请求，再将得到的反馈，用read方法和decode方法进行提取和解码操作。
+  * ```
+      # post请求，post的参数在请求体中
+      import urllib.request
+      import urllib.parse
+      url='https://fanyi.baidu.com/sug'
+      headers={'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36'}
+      data={
+          # 在sug的preview中可以查看到
+          'kw':'spider'
+      }
+      newData=urllib.parse.urlencode(data).encode('utf-8')
+      # post请求的参数，是不会拼接在url的后面的，而是需要放在请求对象定制的参数中
+      request=urllib.request.Request(url=url,data=newData,headers=headers)
+      response=urllib.request.urlopen(request)
+      content=response.read().decode('utf-8')
+      print(content)
+    ```
+  * post请求中需要注意的就是，post请求的参数不会拼接在url的后面，所以需要放在请求对象定制的参数当中，```request=urllib.request.Request(url=url,data=newData,headers=headers)```
+  * 并且还有一个特别需要注意的部分就是，post请求方式的参数，必须进行两次编码，urlencode和encode，```newData=urllib.parse.urlencode(data).encode('utf-8')```
+  * ![post请求方式](imgs/post%E8%AF%B7%E6%B1%82%E6%96%B9%E5%BC%8F.png)
 ## 九、 ajax的get请求
 ## 十、 ajax的post请求
 ## 十一、 复杂get
@@ -139,4 +160,3 @@
 ## 十四、 Handler处理器
 ## 十五、 代理服务器
 ## 十六、 cookie库
-https://github.com/tianyuan65/learn_crawler-with-PYTHON.git
