@@ -153,6 +153,14 @@
   * 并且还有一个特别需要注意的部分就是，post请求方式的参数，必须进行两次编码，urlencode和encode，```newData=urllib.parse.urlencode(data).encode('utf-8')```
   * ![post请求方式](imgs/post%E8%AF%B7%E6%B1%82%E6%96%B9%E5%BC%8F.png)
 ## 九、 ajax的get请求
+* get请求的话，就知道引入```import urllib.request```即可，照常从豆瓣电影-动作片-检查中获取请求路径，UA反爬，请求对象定制，并调用urlopen方法来，像服务器发送请求并获取数据，将获取到的数据调用read方法和decode方法进行解码。
+* 需求是获取豆瓣电影动作片第一页的数据，并保存到本地。所以根据在Python基础部分学过的，调用open方法创建名为douban.json的文件，访问文件的模式为w，随后调用file变量的write方法，参数位传入content数据即可，只不过这次需要格外注意的一点是，open方法默认情况下使用的是gbk编码，若想要保存为汉字的格式，就需要在open方法传递第三个参数就是encoding='utf-8'，这样在打开文件时，才不会报错，不写报的错截图放下面。
+* 若以传统的方式也就是调用open方法后，再调用write方法的话，最后还需要手动调用close方法来关闭文件。为了图方便也可以这么写。这么写，一是不用再调用close方法来关闭文件，二是真的很方便：
+  * ```
+      with open('douban1.json','w',encoding='utf-8') as file:
+          file.write(content)
+    ```
+  * ![没有传入encoding='utf-8'的结果](imgs/%E6%B2%A1%E6%9C%89%E4%BC%A0%E5%85%A5encoding%3D%27utf-8%27%E7%9A%84%E7%BB%93%E6%9E%9C.png)
 ## 十、 ajax的post请求
 ## 十一、 复杂get
 ## 十二、 URLError\HTTPError
