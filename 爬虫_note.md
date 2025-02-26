@@ -161,6 +161,10 @@
           file.write(content)
     ```
   * ![没有传入encoding='utf-8'的结果](imgs/%E6%B2%A1%E6%9C%89%E4%BC%A0%E5%85%A5encoding%3D%27utf-8%27%E7%9A%84%E7%BB%93%E6%9E%9C.png)
+* 案例：向豆瓣电影的官网发送get请求，获取前十页的数据，并下载到本地
+  * 查看请求地址可以了解到，区别只在于最后一部分的start的部分，且因为要获取的数据需要从不同的路径获取，所以不能单纯地实现一次请求对象定制，也不能反复地向网站发送请求，会被封号。因此在正式请求对象定制前，需要创建一个函数createRequest，在这个函数内做好请求对象定制前的全部准备工作。查看地址规律后可发现，请求路径的前部分重复性很高，所以声明baseUrl，用于存储请求路径的前部分，另外又声明data字典，存储start和limit数据，start的规律是```(page-1)*20```，limit的值固定为20。调用urlencode方法，将data数据转换为Unicode格式的新数据newData，并将baseUrl和newData进行拼接，就是一条一条的请求地址。在下面声明startPage和endPage两个变量，用于在控制台输入页码，并创建一个for循环，for循环中调用createRequest函数，并传递遍历的page作为参数。下面的图片是获取的前六页请求地址。
+    * ![向豆瓣电影发送get请求，获取前六页的获取路径](imgs/%E5%90%91%E8%B1%86%E7%93%A3%E7%94%B5%E5%BD%B1%E5%8F%91%E9%80%81get%E8%AF%B7%E6%B1%82%EF%BC%8C%E8%8E%B7%E5%8F%96%E5%89%8D%E5%85%AD%E9%A1%B5%E7%9A%84%E6%95%B0%E6%8D%AE.png)
+  * 上面属于请求定制前的准备工作，
 ## 十、 ajax的post请求
 ## 十一、 复杂get
 ## 十二、 URLError\HTTPError
