@@ -48,8 +48,7 @@ def getContent(returnRequest):
     content=response.read().decode('utf-8')
     return content
 
-import json
-# 反序列化，将json数据转换为python对象类型，并下载到本地
+# 创建文件，并下载到本地
 def downloadData(returnContent,page):
     # 创建文件并写入数据
     with open('kfc_'+str(page)+'.json','w',encoding ='utf-8') as file:

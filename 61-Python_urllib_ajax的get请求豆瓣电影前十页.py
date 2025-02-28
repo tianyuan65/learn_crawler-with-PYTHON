@@ -100,7 +100,7 @@ if __name__=='__main__':
         # 每一页都有自己的请求对象定制，调用createRequest时，
         print(page)
         # 因为createRequest函数最后将request返回了，所以在这里可以用acceptRequest变量接收其值
-        # 这就是作用域的知识点
+        # 这就是作用域的知识点了，局部作用域的数据不能在全局或另一个局部中使用，想用就在函数内返回，并在需要的函数中作为参数传递进去。
         acceptRequest=createRequest(page)
         # 2. 获取响应数据
         acceptContent=getContent(acceptRequest)

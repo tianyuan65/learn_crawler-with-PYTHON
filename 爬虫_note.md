@@ -164,9 +164,13 @@
 * 案例：向豆瓣电影的官网发送get请求，获取前十页的数据，并下载到本地
   * 查看请求地址可以了解到，区别只在于最后一部分的start的部分，且因为要获取的数据需要从不同的路径获取，所以不能单纯地实现一次请求对象定制，也不能反复地向网站发送请求，会被封号。因此在正式请求对象定制前，需要创建一个函数createRequest，在这个函数内做好请求对象定制前的全部准备工作。查看地址规律后可发现，请求路径的前部分重复性很高，所以声明baseUrl，用于存储请求路径的前部分，另外又声明data字典，存储start和limit数据，start的规律是```(page-1)*20```，limit的值固定为20。调用urlencode方法，将data数据转换为Unicode格式的新数据newData，并将baseUrl和newData进行拼接，就是一条一条的请求地址。在下面声明startPage和endPage两个变量，用于在控制台输入页码，并创建一个for循环，for循环中调用createRequest函数，并传递遍历的page作为参数。下面的图片是获取的前六页请求地址。
     * ![向豆瓣电影发送get请求，获取前六页的获取路径](imgs/%E5%90%91%E8%B1%86%E7%93%A3%E7%94%B5%E5%BD%B1%E5%8F%91%E9%80%81get%E8%AF%B7%E6%B1%82%EF%BC%8C%E8%8E%B7%E5%8F%96%E5%89%8D%E5%85%AD%E9%A1%B5%E7%9A%84%E6%95%B0%E6%8D%AE.png)
-  * 上面属于请求定制前的准备工作，
+  * 上面属于请求定制前的准备工作，在createRequest的最后，正式请求对象定制，并将request返回，以便于在下一个函数中作为参数传递并使用。
+  * 创建getContent函数，接收上一个函数返回的request为参数，另起名为acceptRequest，在该函数中获取网页源码，并将其调用decode方法进行解码，最后再将解码的结果返回，以便于在下一个下载数据的函数中使用。
+  * 创建downloadFilm函数，接受page和创建getContent函数中返回的acceptContent作为参数，调用open方法和write方法创建新文件，并将数据写入进去，需要注意的是open方法中必须有encoding='utf-8'，这样才能没有报错和乱码。
 ## 十、 ajax的post请求
-* 
+* 案例：向KFC官网发送post请求，获取北京市门店地址前十页的数据，并下载到本地
+  * 点击每一页后查看请求地址可以理解到，不同于上面的案例，这次的请求地址没有不同，就是那一个请求地址，因此省去了计算请求地址的步骤。但既然是post请求就会有所区别于get请求的步骤，就是将data编码为Unicode格式的步骤。首先，创建一个if判断，在其中声明会输入的起始页码和结束页码的两个变量startPage和endPage。其次，用for循环将输入的startPages和endPage进行遍历，在循环外创建一个叫createRequest的函数，并在循环中调用时，将遍历startPage和endPage的page作为参数。在createRequest函数中做好请求对象定制前的准备工作和请求对象定制的操作，data是payload中的form data，请求对象定制后用return，将request返回，以便于在下一个函数中使用。
+  * 创建getContent函数，并接收上一个createRequest函数中返回的request，另起变量名为returnRequest为参数，在getContent函数中获取网页源码，并调用decode方法将获取的反馈数据解码，再一次返回其值，也就是content。最后创建downloadData函数，接收page和上一个函数中返回的content，另起名为returnContent作为参数，用```with open('filename'+str(page)+'.json','w',encoding='utf-8') as file:file.write(content)```的方式，创建文件并将获取的数据写入进去。
 ## 十一、 复杂get
 ## 十二、 URLError\HTTPError
 ## 十三、 cookie登录
