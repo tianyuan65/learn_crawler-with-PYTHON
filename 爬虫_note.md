@@ -166,6 +166,7 @@
     * ![向豆瓣电影发送get请求，获取前六页的获取路径](imgs/%E5%90%91%E8%B1%86%E7%93%A3%E7%94%B5%E5%BD%B1%E5%8F%91%E9%80%81get%E8%AF%B7%E6%B1%82%EF%BC%8C%E8%8E%B7%E5%8F%96%E5%89%8D%E5%85%AD%E9%A1%B5%E7%9A%84%E6%95%B0%E6%8D%AE.png)
   * 上面属于请求定制前的准备工作，
 ## 十、 ajax的post请求
+* 
 ## 十一、 复杂get
 ## 十二、 URLError\HTTPError
 ## 十三、 cookie登录
