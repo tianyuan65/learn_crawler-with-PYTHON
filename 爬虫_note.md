@@ -171,9 +171,17 @@
 * 案例：向KFC官网发送post请求，获取北京市门店地址前十页的数据，并下载到本地
   * 点击每一页后查看请求地址可以理解到，不同于上面的案例，这次的请求地址没有不同，就是那一个请求地址，因此省去了计算请求地址的步骤。但既然是post请求就会有所区别于get请求的步骤，就是将data编码为Unicode格式的步骤。首先，创建一个if判断，在其中声明会输入的起始页码和结束页码的两个变量startPage和endPage。其次，用for循环将输入的startPages和endPage进行遍历，在循环外创建一个叫createRequest的函数，并在循环中调用时，将遍历startPage和endPage的page作为参数。在createRequest函数中做好请求对象定制前的准备工作和请求对象定制的操作，data是payload中的form data，请求对象定制后用return，将request返回，以便于在下一个函数中使用。
   * 创建getContent函数，并接收上一个createRequest函数中返回的request，另起变量名为returnRequest为参数，在getContent函数中获取网页源码，并调用decode方法将获取的反馈数据解码，再一次返回其值，也就是content。最后创建downloadData函数，接收page和上一个函数中返回的content，另起名为returnContent作为参数，用```with open('filename'+str(page)+'.json','w',encoding='utf-8') as file:file.write(content)```的方式，创建文件并将获取的数据写入进去。
-## 十一、 复杂get
-## 十二、 URLError\HTTPError
-## 十三、 cookie登录
-## 十四、 Handler处理器
-## 十五、 代理服务器
-## 十六、 cookie库
+## 十一、 URLError\HTTPError
+* 简介：
+  * 1. 因为url里包含http，HTTPError类是URLError类的子类。协议：主机：端口：请求路径s：请求参数：锚点。
+  * 2. 导入的包urllib.error.HTTPError urllib.error.URlError。
+  * 3. http错误：http错误是针对浏览器无法连接到服务器二增加出来的错误提示，引导并告诉浏览者该页是哪里出现了问题。
+  * 4. 通过urllib发送请求的时候，有可能会发送失败(有可能是服务器宕了，也有可能是地址写错了)这时如果想让代码更加的流畅稳定(老师说是健壮)，可以通过try-except进行捕获异常，异常有两类，URLError\HTTPError。通过try-except捕获异常时，需要引入```import urllib.error```，再在使用except部分时，写明到底是何种错误。
+  * 下面两张图展示的就是HTTPError和URLError错误的案例展示：
+    * ![url地址错误导致的HTTPError](imgs/url%E5%9C%B0%E5%9D%80%E9%94%99%E8%AF%AF%E5%AF%BC%E8%87%B4%E7%9A%84HTTPError.png)
+    * ![url的主机部分错误导致的URLError](imgs/url%E7%9A%84%E4%B8%BB%E6%9C%BA%E9%83%A8%E5%88%86%E9%94%99%E8%AF%AF%E5%AF%BC%E8%87%B4%E7%9A%84URLError.png)
+## 十二、 cookie登录
+## 十三、 Handler处理器
+## 十四、 代理服务器
+## 十五、 cookie库
+
