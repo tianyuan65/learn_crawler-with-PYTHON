@@ -186,6 +186,13 @@
 * 需要做到的就是无论是否登录，又或者在其他浏览器查看，通过cookie绕过登录这个步骤，都可以直接进入并访问某个指定的页面。登录微博后，右键检查，可以在request headers中看到诸多信息，其中需要的就是cookie，将cookie与其值复制粘贴到headers对象当中，顺便把下面调用decode解码格式换回utf-8，就可以不用通过登录步骤也可以进入指定页面中了，但我是成了40%，微成功。request headers中还有一对是referer与其值，它在一般情况下是做图片防盗链的，简单来说就是，若不是通过referer的地址登录的来的，就不允许访客下载图片。
   * ![成功但没完全成功的展示，微成功](imgs/%E6%88%90%E5%8A%9F%E4%BD%86%E6%B2%A1%E5%AE%8C%E5%85%A8%E6%88%90%E5%8A%9F%E7%9A%84%E5%B1%95%E7%A4%BA%EF%BC%8C%E5%BE%AE%E6%88%90%E5%8A%9F.png)
 ## 十三、 Handler处理器
+* 为什么学习handler？
+  * urllib.request.open(url)，不能定制请求头
+  * urllib.request.Request(url=url,headers=headers,data=data)，可以定制请求头
+  * Handler，可以定制更高级的请求头，随着业务逻辑更加复杂，请求对象的定制已经无法满足需求，动态的cookie和代理不能使用请求对象的定制。
+  * 若是太高频次地访问一个IP，后台会判断为是在爬虫，会将访问的账号封禁掉，可以使用代理来访问，就需要handler处理器。
+  * 需求：使用handler来访问百度，来获取网页源码，具体步骤如下：
+    * 前半部分的准备工作到请求对象定制为止都一样，想要使用handler处理器需要添加三步。首先调用urllib.request的HTTPHandler方法获取handler对象；其次调用urllib.request的build_opener方法，将handler作为参数传进去，通过handler获取opener对象，最后就是调用opener的open方法，将request作为参数传进去，这一步就是模拟浏览器向服务器发送请求，返回值依旧用response接收，下面就是正常解码即可。
 ## 十四、 代理服务器
 ## 十五、 cookie库
 
