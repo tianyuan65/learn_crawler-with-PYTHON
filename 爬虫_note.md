@@ -211,16 +211,14 @@
 
 ## 十六、 解析
 * 16.1 XPath
-  * 安装XPath扩展程序，在chrome应用商店里找，没有的话按老师讲得，把资源先下载下来，然后把xml.crx拖进去，快捷键Ctrl+shift+x后出现小黑框就是安装成功了
+  * 安装XPath扩展程序，在chrome应用商店里找，安装了XPath Tester，快捷键Ctrl+shift+x后出现小白框就是安装成功了
   * 1. 安装lxml库，pip install lxml，这是国外版，但在国内的话可能会慢一些，就可以下载国内版https://pypi.douban.com/simple，在安装python的文件夹的script文件夹里可以看到，若没有就在pycharm的设置-python interpreter-加号中搜lxml，安装即可。在python interpreter中看见lxml就可以了。
     * ![找到正确的路径安装lxml，可安装国外版，若在国内嫌国外版下载慢的话也可安装国内版](imgs/%E6%89%BE%E5%88%B0%E6%AD%A3%E7%A1%AE%E7%9A%84%E8%B7%AF%E5%BE%84%E5%AE%89%E8%A3%85lxml%EF%BC%8C%E5%8F%AF%E5%AE%89%E8%A3%85%E5%9B%BD%E5%A4%96%E7%89%88%EF%BC%8C%E8%8B%A5%E5%9C%A8%E5%9B%BD%E5%86%85%E5%AB%8C%E5%9B%BD%E5%A4%96%E7%89%88%E4%B8%8B%E8%BD%BD%E6%85%A2%E7%9A%84%E8%AF%9D%E4%B9%9F%E5%8F%AF%E5%AE%89%E8%A3%85%E5%9B%BD%E5%86%85%E7%89%88.png)
     * ![在终端安装失败的话，可以在设置Python interpreter，+中安装](imgs/%E5%9C%A8%E7%BB%88%E7%AB%AF%E5%AE%89%E8%A3%85%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%AF%9D%EF%BC%8C%E5%8F%AF%E4%BB%A5%E5%9C%A8%E8%AE%BE%E7%BD%AEPython%20interpreter%EF%BC%8C%2B%E4%B8%AD%E5%AE%89%E8%A3%85.png)
   * 2. 导入lxml.etree
     * ```from lxml import etree```
-    * 解析本地文件
-    * 解析服务器响应的数据
-  * 3. etree.parse()
-  * 4. etree.HTML()
+  * 3. etree.parse('xxx.html')，解析本地文件
+  * 4. etree.HTML(response.read().decode('utf-8'))，解析服务器响应的文件
   * 5. html_etree.xpath(xpath路径)
   * xpath基本语法
     * 1. 路径查询
@@ -245,6 +243,11 @@
     * 6. 逻辑运算
       * //div[@id="head" and @class="s_down"]，但不常用，两个过滤条件的话，把第二个过滤条件写后面就行。
       * //title | //price，没必要。
+  * 案例：获取百度首页的百度一下文本内容
+    * 不同于上面的解析本地文件，案例是解析服务器响应的文件，因此首先需要获取网页源码，步骤依旧是熟悉的请求对象定制，模拟浏览器向服务器发送请求，并进行解码来获取网页源码。正式进入解析网页源码的步骤：
+    * 引入```from lxml import etree```，声明变量tree，接收etree的HTML方法的返回值，HTML方法是专门在解析网页源码时调用的，方法内传入解析的源码content做参数。下一步就能获取想要的数据，也就是百度一下文本内容：
+    * 先到chrome，用快捷键(Ctrl+Shift+X)激活XPath Tester，在左侧用属性查询的方式找到id值为su的有value属性的input标签，右侧就会显示对应的文本内容，查看是否正确，若正确，就把xpath路径复制下来，调用tree的xpath方法，将xpath路径传递进去即可得到百度一下文本内容。xpath路径：```//input[@id="su"]/@value```
+      * ![用快捷键激活XPath Tester，检查里找到百度一下所在的标签，过滤出id值为su和有value属性的指定input标签的文本内容](imgs/%E7%94%A8%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%BF%80%E6%B4%BBXPath%20Tester%EF%BC%8C%E6%A3%80%E6%9F%A5%E9%87%8C%E6%89%BE%E5%88%B0%E7%99%BE%E5%BA%A6%E4%B8%80%E4%B8%8B%E6%89%80%E5%9C%A8%E7%9A%84%E6%A0%87%E7%AD%BE%EF%BC%8C%E8%BF%87%E6%BB%A4%E5%87%BAid%E5%80%BC%E4%B8%BAsu%E5%92%8C%E6%9C%89value%E5%B1%9E%E6%80%A7%E7%9A%84%E6%8C%87%E5%AE%9Ainput%E6%A0%87%E7%AD%BE%E7%9A%84%E6%96%87%E6%9C%AC%E5%86%85%E5%AE%B9.png)
 * 16.2 JsonPath
 * 16.3 BeautifulSoup
 
