@@ -209,5 +209,45 @@
   * 使用opener.open函数发送请求(也是上面刚学的代替urlopen方法，模拟浏览器向服务器发送请求的步骤)
 ## 十五、 cookie库
 
+## 十六、 解析
+* 16.1 XPath
+  * 安装XPath扩展程序，在chrome应用商店里找，没有的话按老师讲得，把资源先下载下来，然后把xml.crx拖进去，快捷键Ctrl+shift+x后出现小黑框就是安装成功了
+  * 1. 安装lxml库，pip install lxml，这是国外版，但在国内的话可能会慢一些，就可以下载国内版https://pypi.douban.com/simple，在安装python的文件夹的script文件夹里可以看到，若没有就在pycharm的设置-python interpreter-加号中搜lxml，安装即可。在python interpreter中看见lxml就可以了。
+    * ![找到正确的路径安装lxml，可安装国外版，若在国内嫌国外版下载慢的话也可安装国内版](imgs/%E6%89%BE%E5%88%B0%E6%AD%A3%E7%A1%AE%E7%9A%84%E8%B7%AF%E5%BE%84%E5%AE%89%E8%A3%85lxml%EF%BC%8C%E5%8F%AF%E5%AE%89%E8%A3%85%E5%9B%BD%E5%A4%96%E7%89%88%EF%BC%8C%E8%8B%A5%E5%9C%A8%E5%9B%BD%E5%86%85%E5%AB%8C%E5%9B%BD%E5%A4%96%E7%89%88%E4%B8%8B%E8%BD%BD%E6%85%A2%E7%9A%84%E8%AF%9D%E4%B9%9F%E5%8F%AF%E5%AE%89%E8%A3%85%E5%9B%BD%E5%86%85%E7%89%88.png)
+    * ![在终端安装失败的话，可以在设置Python interpreter，+中安装](imgs/%E5%9C%A8%E7%BB%88%E7%AB%AF%E5%AE%89%E8%A3%85%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%AF%9D%EF%BC%8C%E5%8F%AF%E4%BB%A5%E5%9C%A8%E8%AE%BE%E7%BD%AEPython%20interpreter%EF%BC%8C%2B%E4%B8%AD%E5%AE%89%E8%A3%85.png)
+  * 2. 导入lxml.etree
+    * ```from lxml import etree```
+    * 解析本地文件
+    * 解析服务器响应的数据
+  * 3. etree.parse()
+  * 4. etree.HTML()
+  * 5. html_etree.xpath(xpath路径)
+  * xpath基本语法
+    * 1. 路径查询
+      * //：查找所有子孙节点，不考虑层级关系，```liList=tree.xpath('//body//li')```
+      * /：找直接子节点,```liList=tree.xpath('//body/ul/li')```
+    * 2. 谓词查询
+       * //div[@id]，过滤出带有id属性的标签，也可以查询id属性标签的文本内容
+         * ```liWithId=tree.xpath('//ul/li[@id]')```
+         * ```liWithContent=tree.xpath('//ul/li[@id]/text()')```
+      * //div[@id="miancontent"]，过滤出带有id属性且该id属性还有专属值的标签
+        * ```liWithIdAndContent=tree.xpath('//ul/li[@id="l1"]/text()')```
+    * 3. 属性查询
+      * //@class，过滤出带有class属性的标签，并获取class属性的值
+        * ```liWithIdAndClassValue=tree.xpath('//ul/li[@id="l1"]/@class')```
+    * 4. 模糊查询
+      * //div[contains(@id,"he")]，需求：找出id属性值包含l的li标签
+        * ```liWithL=tree.xpath('//ul/li[contains(@id,"l")]/text()')```
+      * //div[starts-with(@id),"he"]，需求：找出id属性值为c开头的里标签
+        * ```liStartWithL=tree.xpath('//ul/li[starts-with(@id,"c")]/text()')```
+    * 5. 内容查询
+      * //div/h1/text()，想要获取某一标签的文本内容，就在最后添加/text()即可。
+    * 6. 逻辑运算
+      * //div[@id="head" and @class="s_down"]，但不常用，两个过滤条件的话，把第二个过滤条件写后面就行。
+      * //title | //price，没必要。
+* 16.2 JsonPath
+* 16.3 BeautifulSoup
+
 
 * 当然是失败的，目标计算机甚至在积极地拒绝，但通过代理池可以更高效地工作，现实中公司会提供一个账号可以得到高匿有成量的代理IP。
+* 这个parse和html是将内容转换成xml然后才能用xpath解析  简单说就是xpath只能解析xml文本
