@@ -245,9 +245,14 @@
       * //title | //price，没必要。
   * 案例：获取百度首页的百度一下文本内容
     * 不同于上面的解析本地文件，案例是解析服务器响应的文件，因此首先需要获取网页源码，步骤依旧是熟悉的请求对象定制，模拟浏览器向服务器发送请求，并进行解码来获取网页源码。正式进入解析网页源码的步骤：
-    * 引入```from lxml import etree```，声明变量tree，接收etree的HTML方法的返回值，HTML方法是专门在解析网页源码时调用的，方法内传入解析的源码content做参数。下一步就能获取想要的数据，也就是百度一下文本内容：
+    * 引入```from lxml import etree```，声明变量tree，接收etree的HTML方法的返回值，HTML方法是专门在解析网页源码时调用的，HTML方法内传入解析的源码content做参数。下一步就能获取想要的数据，也就是百度一下文本内容：
     * 先到chrome，用快捷键(Ctrl+Shift+X)激活XPath Tester，在左侧用属性查询的方式找到id值为su的有value属性的input标签，右侧就会显示对应的文本内容，查看是否正确，若正确，就把xpath路径复制下来，调用tree的xpath方法，将xpath路径传递进去即可得到百度一下文本内容。xpath路径：```//input[@id="su"]/@value```
       * ![用快捷键激活XPath Tester，检查里找到百度一下所在的标签，过滤出id值为su和有value属性的指定input标签的文本内容](imgs/%E7%94%A8%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%BF%80%E6%B4%BBXPath%20Tester%EF%BC%8C%E6%A3%80%E6%9F%A5%E9%87%8C%E6%89%BE%E5%88%B0%E7%99%BE%E5%BA%A6%E4%B8%80%E4%B8%8B%E6%89%80%E5%9C%A8%E7%9A%84%E6%A0%87%E7%AD%BE%EF%BC%8C%E8%BF%87%E6%BB%A4%E5%87%BAid%E5%80%BC%E4%B8%BAsu%E5%92%8C%E6%9C%89value%E5%B1%9E%E6%80%A7%E7%9A%84%E6%8C%87%E5%AE%9Ainput%E6%A0%87%E7%AD%BE%E7%9A%84%E6%96%87%E6%9C%AC%E5%86%85%E5%AE%B9.png)
+  * 案例：站长素材网站中获取小猫图片的前十页，并下载到本地
+    * if main判断中声明startPage和endPages两个变量，并使用for循环对其之间的步长进行遍历，循环体中，调用createRequest函数，传入遍历的结果page作为参数，在for循环体外声明createRequest函数。观察站长素材小猫图片的每一页网址后可以发现第二页开始路径的变化是在请求路径的最后有了_page，因此createRequest中用if-else做个判断，若page值等于1，请求路径url的值就是第一页的值；否则，url的值就是https://sc.chinaz.com/tupian/xiaomaotupian_加上强制转换为字符串类型的page，最后不上.html。UA反爬后，进行请求对象定制的操作，函数体内的最后将获取的request返回，以便于在下面的获取源码的函数中使用。
+    * 返回的request，在for循环中用变量returnRequest接收，创建获取源码的getContent函数，将returnRequest作为参数传进去，for循环体外照样声明getContent函数，getContent函数体内模拟浏览器向服务器发送请求，随后进行解码操作，获取到源码后将得到的content返回，以便于在下载图片的函数中使用。
+    * 返回的content，在for循环体中用returnContent变量接收，创建下载图片的函数downloadPng，接收returnContent为参数。downloadPng函数体内，首先要做的就是调用etree的HTML方法创建tree对象，HTML方法中将returnContent传进去解析。点开小猫所在网页用快捷键激活xpath，一层一层找出包裹图片的标签，将他们一一列出来，再在右侧查看是否正确，若正确就将xpath路径粘贴到xpath方法里面做参数，就可以得到图片列表，用变量picList接收。用for循环遍历piclist的长度，变量设置为i，在循环体内将picList[i]赋值给pictures。下载图片到本地调用的是urlretrieve方法，方法内第一个参数时图片地址，第二个参数是存储图片的文件名或文件夹名，最后点击运行即可。
+    * 但是我失败了，可能是访问了太多次网站被反爬了，又或者是逻辑错误，但询问了deepseek说是基本逻辑无误。
 * 16.2 JsonPath
 * 16.3 BeautifulSoup
 
