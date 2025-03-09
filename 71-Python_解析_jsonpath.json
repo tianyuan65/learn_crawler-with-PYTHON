@@ -1,0 +1,32 @@
+{ "store": {
+    "book": [
+      { "category": "现言",
+        "author": "竹已",
+        "title": "难哄",
+        "price": 8.95
+      },
+      { "category": "古言",
+        "author": "匪我思存",
+        "title": "东宫",
+        "price": 12.99
+      },
+      { "category": "诗歌散文",
+        "author": "梁实秋",
+        "title": "快乐就是哈哈哈哈哈",
+        "isbn": "9787570234059",
+        "price": 8.99
+      },
+      { "category": "现实主义文学",
+        "author": "曹雪芹",
+        "title": "红楼梦",
+        "isbn": "9787101086591",
+        "price": 22.99
+      }
+    ],
+    "bicycle": {
+      "author": "关心则乱",
+      "color": "黑色",
+      "price": 19.95
+    }
+  }
+}

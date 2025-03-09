@@ -254,6 +254,31 @@
     * 返回的content，在for循环体中用returnContent变量接收，创建下载图片的函数downloadPng，接收returnContent为参数。downloadPng函数体内，首先要做的就是调用etree的HTML方法创建tree对象，HTML方法中将returnContent传进去解析。点开小猫所在网页用快捷键激活xpath，一层一层找出包裹图片的标签，将他们一一列出来，再在右侧查看是否正确，若正确就将xpath路径粘贴到xpath方法里面做参数，就可以得到图片列表，用变量picList接收。用for循环遍历piclist的长度，变量设置为i，在循环体内将picList[i]赋值给pictures。下载图片到本地调用的是urlretrieve方法，方法内第一个参数时图片地址，第二个参数是存储图片的文件名或文件夹名，最后点击运行即可。
     * 但是我失败了，可能是访问了太多次网站被反爬了，又或者是逻辑错误，但询问了deepseek说是基本逻辑无误。
 * 16.2 JsonPath
+  * JsonPath的安装：打开终端，在下载Python的目录下，用```pip install jsonpath```即可。
+    * ![安装jsonpath](imgs/%E5%AE%89%E8%A3%85jsonpath.png)
+  * JsonPath的用法：jsonpath只解析本地文件，引入json和jsonpath后，将json文件中的数据反序列化，将json类型的数据转换为Python的dic类型。调用json的load方法，load方法中再调用open方法，open方法中奖json文件，按照r模式打开，并设置encoding='utf-8，```loadedObj=json.load(open('71-Python_解析_jsonpath.json','r',encoding='utf-8'))```。
+  * 且与xpath不同，获取jsonpath路径的方式与xpath大有不同，比如不用/来分隔上下级，也不用//来分隔上一级和子孙阶级，用$代替//，用.来代替/。筛选元素时，会调用jsonpath的jsonpath方法，将反序列化数据和jsonpath路径作为参数传进去。下面是几个不同的jsonpath路径案例。
+  * $.store.book[*].author，过滤出所有书的作者。[]里的*代表当前节点下的全部。若[]内传递数值，就代表可以通过下标来获取指定对象的属性值
+    * authorList=jsonpath.jsonpath(loadedObj,'$.store.book[*].author')  #['竹已', '匪我思存', '梁实秋', '曹雪芹']
+    * authorList=jsonpath.jsonpath(loadedObj,'$.store.book[3].author')  #['曹雪芹']
+  * $..author，所有的作者。..代表xpath里的//，代表查找所有子孙节点，在该案例里代表获取并整合根元素下下级中的所有author属性的值。
+    * allAuthors=jsonpath.jsonpath(loadedObj,'$..author')  #['竹已', '匪我思存', '梁实秋', '曹雪芹', '关心则乱']
+  * $.store.*，获取json中store下所有的元素。有了*就代表获取节点下全部元素
+    * storeList=jsonpath.jsonpath(loadedObj,'$.store.*')
+  * $.store..price，获取json中store下所有物品的price的值。
+    * priceList=jsonpath.jsonpath(loadedObj,'$.store..price') ##[8.95, 12.99, 8.99, 22.99, 19.95]
+  * $..book[2]或$.store.book[2]，获取json中book数组中第三本书。两种写法，可以一步一步写下来，也可以用..代替，这里为了明确第三本书的书名，最后有加了.title.
+    * thirdBook=jsonpath.jsonpath(loadedObj,'$..book[2].title') #['快乐就是哈哈哈哈哈']
+    * thirdBook=jsonpath.jsonpath(loadedObj,'$.store.book[2].title')  #['快乐就是哈哈哈哈哈']
+  * $.store.book[(@.length-1)]，获取json中最后一本书。用@表示当前节点，在这里表示book节点下，根据条件进行过滤，()内，用长度-1的方式计算下标。
+    * lastBook=jsonpath.jsonpath(loadedObj,'$.store.book[(@.length-1)]') #[{'category': '现实主义文学', 'author': '曹雪芹', 'title': '红楼梦', 'isbn': '9787101086591', 'price': 22.99}]
+  * $..book[0,1]或$..book[:2]，获取json中book数组中的前两本书。也有两种方法，用下标来明确，或用切片的方式。
+    * firstTwobook=jsonpath.jsonpath(loadedObj,'$..book[0,1].title')  #['难哄', '东宫']
+    * firstTwobook=jsonpath.jsonpath(loadedObj,'$..book[:2].title')  #['难哄', '东宫']
+  * $..book[?(@.isbn)]，获取json中的book数组中包含isbn属性的所有值。条件过滤需要在()的前面加一个?，?的作用是引入一个过滤表达式（filter expression），用于筛选符合条件的节点。
+    * bookContainsISBN=jsonpath.jsonpath(loadedObj,'$..book[?(@.isbn)].title')  #['快乐就是哈哈哈哈哈', '红楼梦']
+  * $..book[?(@.price>10)]，获取json中的book数组中price大于10的书。
+    * bookList=jsonpath.jsonpath(loadedObj,'$..book[?(@.price>10)].title') #['东宫', '红楼梦']
 * 16.3 BeautifulSoup
 
 
