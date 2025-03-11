@@ -279,6 +279,13 @@
     * bookContainsISBN=jsonpath.jsonpath(loadedObj,'$..book[?(@.isbn)].title')  #['快乐就是哈哈哈哈哈', '红楼梦']
   * $..book[?(@.price>10)]，获取json中的book数组中price大于10的书。
     * bookList=jsonpath.jsonpath(loadedObj,'$..book[?(@.price>10)].title') #['东宫', '红楼梦']
+  * 案例：jsonpath解析淘票票
+    * 需求：向淘票票获取全国影院城市。
+    * 鉴于jsonpath只能解析本地文件，因此通过请求对象定制获取源码后，需要创建一个新文件来存储源码，将其转为本地文件，就此可以通过jsonpath来解析并输出。需要注意的是，在进行反爬时，将请求标头的全部放到headers里，但带冒号的和accept-encoding请求头不要，因为它们几个不但不起作用，放着还报错。随后正常进行请求对象定制，模拟浏览器向服务器发送请求并获取源码的操作。打印数据后可以看到，数据不是json类型的数据，而是用jsonp函数包裹的数据，因此调用split方法，第一次以(进行分割，并取下标为1部分的数据，也就是真正的json数据部分，第二次用)进行分割，取下标为0部分的数据，去掉最后的;，才获取到真正需要的json数据。
+      * ![反爬手段中前几个从请求标头拿来的带冒号的会导致报错，因此会删除掉](imgs/%E5%8F%8D%E7%88%AC%E6%89%8B%E6%AE%B5%E4%B8%AD%E5%89%8D%E5%87%A0%E4%B8%AA%E4%BB%8E%E8%AF%B7%E6%B1%82%E6%A0%87%E5%A4%B4%E6%8B%BF%E6%9D%A5%E7%9A%84%E5%B8%A6%E5%86%92%E5%8F%B7%E7%9A%84%E4%BC%9A%E5%AF%BC%E8%87%B4%E6%8A%A5%E9%94%99%EF%BC%8C%E5%9B%A0%E6%AD%A4%E4%BC%9A%E5%88%A0%E9%99%A4%E6%8E%89.png)
+      * ![accept-encoding请求头及其值需要被注释掉，和上面带冒号的一样，不但没作用放着还报错，没了就可正常运行](imgs/accept-encoding%E8%AF%B7%E6%B1%82%E5%A4%B4%E5%8F%8A%E5%85%B6%E5%80%BC%E9%9C%80%E8%A6%81%E8%A2%AB%E6%B3%A8%E9%87%8A%E6%8E%89%EF%BC%8C%E5%92%8C%E4%B8%8A%E9%9D%A2%E5%B8%A6%E5%86%92%E5%8F%B7%E7%9A%84%E4%B8%80%E6%A0%B7%EF%BC%8C%E4%B8%8D%E4%BD%86%E6%B2%A1%E4%BD%9C%E7%94%A8%E6%94%BE%E7%9D%80%E8%BF%98%E6%8A%A5%E9%94%99%EF%BC%8C%E6%B2%A1%E4%BA%86%E5%B0%B1%E5%8F%AF%E6%AD%A3%E5%B8%B8%E8%BF%90%E8%A1%8C.png)
+      * ![调用split方法将源码数据进行两次分割，以便于提取可解析的json数据](imgs/%E8%B0%83%E7%94%A8split%E6%96%B9%E6%B3%95%E5%B0%86%E6%BA%90%E7%A0%81%E6%95%B0%E6%8D%AE%E8%BF%9B%E8%A1%8C%E4%B8%A4%E6%AC%A1%E5%88%86%E5%89%B2%EF%BC%8C%E4%BB%A5%E4%BE%BF%E4%BA%8E%E6%8F%90%E5%8F%96%E5%8F%AF%E8%A7%A3%E6%9E%90%E7%9A%84json%E6%95%B0%E6%8D%AE.png)
+    * 到此，数据依旧是服务器响应的数据，不是本地数据，创建新文件72-Python_解析_jsonpath解析淘票票.json，并将数据下载到文件中。既然作为本地文件就可以通过jsonpath来获取想要的数据了。引入json和jsonpath后，调用json的load方法，进行反序列化，load方法中调用open方法来打开刚创建的json文件，声明一个变量loadedObj，反序列化后的数据存储在其中。随后就可以调用jsonpath的jsonpath方法，将loadedObj和jsonpath路径传进去，就可以获取全部城市名。
 * 16.3 BeautifulSoup
 
 
