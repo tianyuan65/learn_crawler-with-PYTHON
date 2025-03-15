@@ -287,7 +287,91 @@
       * ![调用split方法将源码数据进行两次分割，以便于提取可解析的json数据](imgs/%E8%B0%83%E7%94%A8split%E6%96%B9%E6%B3%95%E5%B0%86%E6%BA%90%E7%A0%81%E6%95%B0%E6%8D%AE%E8%BF%9B%E8%A1%8C%E4%B8%A4%E6%AC%A1%E5%88%86%E5%89%B2%EF%BC%8C%E4%BB%A5%E4%BE%BF%E4%BA%8E%E6%8F%90%E5%8F%96%E5%8F%AF%E8%A7%A3%E6%9E%90%E7%9A%84json%E6%95%B0%E6%8D%AE.png)
     * 到此，数据依旧是服务器响应的数据，不是本地数据，创建新文件72-Python_解析_jsonpath解析淘票票.json，并将数据下载到文件中。既然作为本地文件就可以通过jsonpath来获取想要的数据了。引入json和jsonpath后，调用json的load方法，进行反序列化，load方法中调用open方法来打开刚创建的json文件，声明一个变量loadedObj，反序列化后的数据存储在其中。随后就可以调用jsonpath的jsonpath方法，将loadedObj和jsonpath路径传进去，就可以获取全部城市名。
 * 16.3 BeautifulSoup
+  * 1. 基本简介
+    * BeautifulSoup简称：bs4
+    * 什么是BeautifulSoup？
+      * BeautifulSoup和lxml一样，是一个HTML、解析器，主要功能也是解析和提取数据。
+    * 优缺点：
+      * 缺点：效率没有lxml高
+      * 优点；接口设计人性化，使用方便
+  * 2. 安装以及创建
+    * 安装：pip install bs4
+      * ![依旧安装在Scripts里，但会在lib下的site-packages中，反正是安装成功了](imgs/%E4%BE%9D%E6%97%A7%E5%AE%89%E8%A3%85%E5%9C%A8Scripts%E9%87%8C%EF%BC%8C%E4%BD%86%E4%BC%9A%E5%9C%A8lib%E4%B8%8B%E7%9A%84site-packages%E4%B8%AD%EF%BC%8C%E5%8F%8D%E6%AD%A3%E6%98%AF%E5%AE%89%E8%A3%85%E6%88%90%E5%8A%9F%E4%BA%86.png)
+    * 导入：from bs4 import BeautifulSoup，与xpath的导入方式一样。
+    * 创建对象，与xpath使用方式很相似：
+      * 服务器响应的文件生成对象
+        * ```soup=BeautifulSoup(response.read().decode('utf-8'),'lxml')```
+      * 本地文件生成对象
+        * ```soup=BeautifulSoup(open('1.html'),'lxml')```
+        * 因为以上面的方法生成对象后，默认打开文件的方式是gbk，所以会报错，因此需要给open方法传入第二个参数也就是encoding，其值为utf-8，以这种方式来指定编码格式。
+          * ![直接打开文件后，不设置编码格式的结果，默认是gbk模式，因此需要将编码格式手动设置为utf-8](imgs/%E7%9B%B4%E6%8E%A5%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%90%8E%EF%BC%8C%E4%B8%8D%E8%AE%BE%E7%BD%AE%E7%BC%96%E7%A0%81%E6%A0%BC%E5%BC%8F%E7%9A%84%E7%BB%93%E6%9E%9C%EF%BC%8C%E9%BB%98%E8%AE%A4%E6%98%AFgbk%E6%A8%A1%E5%BC%8F%EF%BC%8C%E5%9B%A0%E6%AD%A4%E9%9C%80%E8%A6%81%E5%B0%86%E7%BC%96%E7%A0%81%E6%A0%BC%E5%BC%8F%E6%89%8B%E5%8A%A8%E8%AE%BE%E7%BD%AE%E4%B8%BAutf-8.png)
+  * 3. 节点定位
+    * 根据标签名查找节点
+      * soup.a
+        * ![按照标签名找节点，会找出并输出第一个符合条件的数据](imgs/%E6%8C%89%E7%85%A7%E6%A0%87%E7%AD%BE%E5%90%8D%E6%89%BE%E8%8A%82%E7%82%B9%EF%BC%8C%E4%BC%9A%E6%89%BE%E5%87%BA%E5%B9%B6%E8%BE%93%E5%87%BA%E7%AC%AC%E4%B8%80%E4%B8%AA%E7%AC%A6%E5%90%88%E6%9D%A1%E4%BB%B6%E7%9A%84%E6%95%B0%E6%8D%AE.png)
+      * soup.a.attrs
+        * ![soup.a.attrs，可以查找符合条件的标签的所有属性](imgs/soup.a.attrs%EF%BC%8C%E5%8F%AF%E4%BB%A5%E6%9F%A5%E6%89%BE%E7%AC%A6%E5%90%88%E6%9D%A1%E4%BB%B6%E7%9A%84%E6%A0%87%E7%AD%BE%E7%9A%84%E6%89%80%E6%9C%89%E5%B1%9E%E6%80%A7.png)
+    * 函数，这三个函数不是单独使用的，实际使用时，都会用到，会组合使用
+      * find()：
+        * soup.find('a')，只找第一个a标签
+        * soup.find('a',属性值="属性值")：只找存在指定属性和属性值的a标签
+        * soup.find('a',class_="值")：只找class属性为其值的a标签，class要写成class_
+          * ![class被Python征用了，所以不能直接写class来找标签，需要写成class_，就代表通过class属性找指定的标签](imgs/class%E8%A2%ABPython%E5%BE%81%E7%94%A8%E4%BA%86%EF%BC%8C%E6%89%80%E4%BB%A5%E4%B8%8D%E8%83%BD%E7%9B%B4%E6%8E%A5%E5%86%99class%E6%9D%A5%E6%89%BE%E6%A0%87%E7%AD%BE%EF%BC%8C%E9%9C%80%E8%A6%81%E5%86%99%E6%88%90class_%EF%BC%8C%E5%B0%B1%E4%BB%A3%E8%A1%A8%E9%80%9A%E8%BF%87class%E5%B1%9E%E6%80%A7%E6%89%BE%E6%8C%87%E5%AE%9A%E7%9A%84%E6%A0%87%E7%AD%BE.png)
+      * find_all()：
+        * soup.find_all('a')：查找所有a标签
+        * soup.find_all('a','span')：查找所有a和span标签
+        * soup.find_all('li',limit=2)：返回前两个li标签
+          * ![find_all函数，传递第二个参数limit，可以获取前几个指定的数据](imgs/find_all%E5%87%BD%E6%95%B0%EF%BC%8C%E4%BC%A0%E9%80%92%E7%AC%AC%E4%BA%8C%E4%B8%AA%E5%8F%82%E6%95%B0limit%EF%BC%8C%E5%8F%AF%E4%BB%A5%E8%8E%B7%E5%8F%96%E5%89%8D%E5%87%A0%E4%B8%AA%E6%8C%87%E5%AE%9A%E7%9A%84%E6%95%B0%E6%8D%AE.png)
+      * select()：
+        * 元素选择器-element:soup.select('a')，查找所有a标签，直接传标签名的话就和find_all的作用一样
+        * 类选择器-class：soup.select('.a1')，根据class属性的值，查找指定的标签/数据，需要在属性值钱加个.
+        * id选择器-#id：soup.select('#l2')，返回id属性值为l2的标签，需要在属性值前加个#
+        * 属性选择器:
+          * soup.select('li[id]')，返回有id属性的所有li标签
+          * soup.select('li[class]')，返回有class属性的所有li标签
+          * soup.select('li[id="l2"]')，返回id属性值为l2的li标签
+        * 层级选择器/后代选择器
+          * 空格  ，后代选择器，通过空格可以将两个祖孙关系的标签连起来，快速找到子孙标签的对象，返回的是一个列表。
+            * element element
+          * 大于 >，子代选择器，通过逗号可以获取指定的某标签的第一级子标签，不能一步实现找到子孙标签，需要一层一层地列出标签。
+            * element>element1>element2
+          * 逗号 ,，与需要写成两个独立的标签用逗号隔开的find_all方法不同，select方法中想要获取多个标签对象，写在一起，用逗号隔开即可，这一点相比xpath和jsonpath更加人性化。
+            * element,element，eg：soup=soup.select('a,li')
+  * 4. 节点信息
+    * 获取节点内容：适用于标签中嵌套标签的结构，调用select函数返回的结果是列表，而列表不会有string属性和get_text()，因此需要通过下标的方式提取出列表里的元素，再调用string或get_text()来获取节点的内容。
+    * string和get_text方法虽然都是获取节点内容的方式，但更加推荐使用get_text方法，因为如果标签中除了内容，还包含了了其他标签，就无法通过string属性获取节点内容，还需要将标签对象的子标签或子孙标签一一列出来，但get_text不同，可以直接获取。
+      * obj.string
+      * obj.get_text()【推荐】
+        * ```
+            obj=soup.select('#d1')[0]
+            print(obj.string)   #None
+            obj=soup.select('#d1>span')[0]
+            print(obj.string)   #嘿嘿嘿
+            print(obj.get_text())   #嘿嘿嘿
+          ```
+    * 节点的属性
+      * tag.name-获取标签名，通过id获取p标签，依旧因为调用select函数返回的是一个列表，而无法直接通过.name来获取节点的属性，因此需要先获取列表中的元素，再调用.name。
+        * ```
+            obj=soup.select('#p1')[0]
+            print(obj.name) #p
+          ```
+      * tag.attrs-将该标签拥有的所有属性值整理成一个字典返回
+        * ```
+            obj=soup.select('#p1')[0]
+            print(obj.attrs)    #{'id': 'p1', 'class': ['p1'], 'style': 'font-size:30px;color:aqua'}
+          ```
+    * 获取节点属性，三种方法，调用标签对象的attrs属性后，再调用get方法，传递属性名做参数；直接调用标签对象的get方法传递属性名作参数；不调用任何方法或属性，用[]包裹属性名，从标签对象中获取。三种方法皆可，但推荐使用第一种。
+      * obj.attrs.get('title')
+      * obj.get('title')
+      * obj['title']
+        * ```
+            obj=soup.select('#p1')[0]
+            print(obj.attrs.get('class'))   #['p1']
+            print(obj.get('class')) #['p1']
+            print(obj['class']) #['p1']
+          ```
+      
 
 
-* 当然是失败的，目标计算机甚至在积极地拒绝，但通过代理池可以更高效地工作，现实中公司会提供一个账号可以得到高匿有成量的代理IP。
+* 当然是失败的，目标计算机甚至在积极地拒绝，但通过代理池可以更高效地工作，现实中公司会提供一个账号可以得到高匿又成量的代理IP。
 * 这个parse和html是将内容转换成xml然后才能用xpath解析  简单说就是xpath只能解析xml文本
