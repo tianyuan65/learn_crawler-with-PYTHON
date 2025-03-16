@@ -370,6 +370,9 @@
             print(obj.get('class')) #['p1']
             print(obj['class']) #['p1']
           ```
+  * 案例：bs4解析麦当劳
+    * 从麦当劳官网的菜单的汉堡区，获取URL路径，随后照常引入urllib.request，但这次不用UA和cookie进行反爬，直接模拟浏览器向服务器发送请求，并调用read方法和decode方法来获取网页源码。回到网页当中，用快捷键(Ctrl+Shift+X)激活xpath工具，获取想要爬取的麦当劳汉堡页数据的xpath路径//div[@class="row"]//a/span。根据xpath路径可以推算出，相对应的bs路径.row a>span。引入bs4后，调用BeautifulSoup方法，里面传入获取的网页源码content和lxml做参数，并将返回值赋值给变量soup，查询数据调用select方法，将bs路径传进去做参数，即可获得有关汉堡的全部信息，但因为select方法返回的数据是列表类型的数据，想要获取汉堡的名字不能直接用string属性或get_text方法，因此通过for循环对select方法的返回值进行遍历即可获取汉堡的名字。
+    
       
 
 
