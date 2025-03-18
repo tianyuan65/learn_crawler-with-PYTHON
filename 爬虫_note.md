@@ -373,6 +373,22 @@
   * 案例：bs4解析麦当劳
     * 从麦当劳官网的菜单的汉堡区，获取URL路径，随后照常引入urllib.request，但这次不用UA和cookie进行反爬，直接模拟浏览器向服务器发送请求，并调用read方法和decode方法来获取网页源码。回到网页当中，用快捷键(Ctrl+Shift+X)激活xpath工具，获取想要爬取的麦当劳汉堡页数据的xpath路径//div[@class="row"]//a/span。根据xpath路径可以推算出，相对应的bs路径.row a>span。引入bs4后，调用BeautifulSoup方法，里面传入获取的网页源码content和lxml做参数，并将返回值赋值给变量soup，查询数据调用select方法，将bs路径传进去做参数，即可获得有关汉堡的全部信息，但因为select方法返回的数据是列表类型的数据，想要获取汉堡的名字不能直接用string属性或get_text方法，因此通过for循环对select方法的返回值进行遍历即可获取汉堡的名字。
     
+## 十七、Selenium
+* 17.1 Selenium
+  * 1. 什么事selenium？
+    * Selenium是一个用于Web应用程序测试的工具。
+      * 通过请求对象定制，向服务器发送请求，获取数据时，因为有一部操作是模拟浏览器向服务器发送请求，所以获取到的数据多多少少会有遗漏，且网站可能会监测到用户是在使用爬虫程序，还会有各种各样的反爬手段，比如：获取到的数据是加密的，又或者直接不给数据。而selenium就是帮助驱动真实的浏览器，就不会被反爬手段拦截掉数据。
+    * Selenium测试直接运行在浏览器中，就像真正的用户在操作一样。
+    * 支持通过各种driver(FirefoxDriver,InternetExplorerDriver,OperaDriver,ChromeDriver)驱动真实浏览器完成测试。
+    * selenium也是支持无界面浏览器操作的。
+  * 2. 为什么使用selenium？
+    * 通过请求对象定制，从服务器获取源码是模拟浏览器向服务器发送请求的，获取的数据不完整。但用selenium的话，是在浏览器直接运行的，是模拟浏览器功能，自动执行网页中的js代码，实现动态的加载。下面的图就是，通过请求对象定制，模拟浏览器向服务器发送请求后获取的源码，无法想要通过class属性查找到淘宝秒杀。
+      * ![通过对象定制获取淘宝首页源码后，用淘宝秒杀模块的class属性值查找源码，无法找到](imgs/%E9%80%9A%E8%BF%87%E5%AF%B9%E8%B1%A1%E5%AE%9A%E5%88%B6%E8%8E%B7%E5%8F%96%E6%B7%98%E5%AE%9D%E9%A6%96%E9%A1%B5%E6%BA%90%E7%A0%81%E5%90%8E%EF%BC%8C%E7%94%A8%E6%B7%98%E5%AE%9D%E7%A7%92%E6%9D%80%E6%A8%A1%E5%9D%97%E7%9A%84class%E5%B1%9E%E6%80%A7%E5%80%BC%E6%9F%A5%E6%89%BE%E6%BA%90%E7%A0%81%EF%BC%8C%E6%97%A0%E6%B3%95%E6%89%BE%E5%88%B0.png)
+  * 3. 如何安装selenium
+    * 
+  * 4. selenium的使用步骤
+* 17.2 Phantomjs
+* 17.3 Chrome handlers
       
 
 
