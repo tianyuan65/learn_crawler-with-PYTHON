@@ -375,7 +375,7 @@
     
 ## 十七、Selenium
 * 17.1 Selenium
-  * 1. 什么事selenium？
+  * 1. 什么是selenium？
     * Selenium是一个用于Web应用程序测试的工具。
       * 通过请求对象定制，向服务器发送请求，获取数据时，因为有一部操作是模拟浏览器向服务器发送请求，所以获取到的数据多多少少会有遗漏，且网站可能会监测到用户是在使用爬虫程序，还会有各种各样的反爬手段，比如：获取到的数据是加密的，又或者直接不给数据。而selenium就是帮助驱动真实的浏览器，就不会被反爬手段拦截掉数据。
     * Selenium测试直接运行在浏览器中，就像真正的用户在操作一样。
@@ -385,8 +385,33 @@
     * 通过请求对象定制，从服务器获取源码是模拟浏览器向服务器发送请求的，获取的数据不完整。但用selenium的话，是在浏览器直接运行的，是模拟浏览器功能，自动执行网页中的js代码，实现动态的加载。下面的图就是，通过请求对象定制，模拟浏览器向服务器发送请求后获取的源码，无法想要通过class属性查找到淘宝秒杀。
       * ![通过对象定制获取淘宝首页源码后，用淘宝秒杀模块的class属性值查找源码，无法找到](imgs/%E9%80%9A%E8%BF%87%E5%AF%B9%E8%B1%A1%E5%AE%9A%E5%88%B6%E8%8E%B7%E5%8F%96%E6%B7%98%E5%AE%9D%E9%A6%96%E9%A1%B5%E6%BA%90%E7%A0%81%E5%90%8E%EF%BC%8C%E7%94%A8%E6%B7%98%E5%AE%9D%E7%A7%92%E6%9D%80%E6%A8%A1%E5%9D%97%E7%9A%84class%E5%B1%9E%E6%80%A7%E5%80%BC%E6%9F%A5%E6%89%BE%E6%BA%90%E7%A0%81%EF%BC%8C%E6%97%A0%E6%B3%95%E6%89%BE%E5%88%B0.png)
   * 3. 如何安装selenium
-    * 
+    * 操作谷歌浏览器驱动下载地址
+    * 谷歌驱动和谷歌浏览器版本之间的映射表，在下面这个地址中查看
+      * https://googlechromelabs.github.io/chrome-for-testing/
+    * 查看谷歌浏览器版本
+      * 谷歌浏览器右上角三个点-->帮助-->关于，确定浏览器的版本后，根据浏览器版本安装对应的驱动。下载驱动后，将其放在文件所在的同一目录中。并准备安装selenium。
+    * pip install selenium
+      * 安装selenium，下载到安装Python的Script文件夹中，但会被下载到Lib下的site-package目录中。
   * 4. selenium的使用步骤
+    * (1). 导入，导入前安装webdriver-manager，可以自动管理驱动，```pip install webdriver-manager```
+      * ```
+          from selenium import webdriver
+          from selenium.webdriver.chrome.service import Service
+        ```
+    * (2). 创建谷歌浏览器操作对象
+      * ```
+          service=Service('chromedriver.exe')
+          driver=webdriver.Chrome(service=service)
+        ```
+    * (3). 访问地址
+      * ```
+          url='https://taobao.com'
+          driver.get(url)
+        ```
+    * 随后就可以调用page_source来获取网页源码，可以打印出来查看是否与浏览器中查看到的源码一致。运行后，访问的网址就会被打开，控制台中也会打印出完整的数据，如下图可以查看到是完整的全部数据，之前用请求对象定制的方式无法爬取到。点击运行后会打开访问地址，但也会闪退，这是因为selenium的版本过高，需要跳到3.3.x版本，但我懒得在下一次selenium，就不试了。
+      * ![通过selenium爬取淘宝数据，可查看到是获取到了完整的数据](imgs/%E9%80%9A%E8%BF%87selenium%E7%88%AC%E5%8F%96%E6%B7%98%E5%AE%9D%E6%95%B0%E6%8D%AE%EF%BC%8C%E5%8F%AF%E6%9F%A5%E7%9C%8B%E5%88%B0%E6%98%AF%E8%8E%B7%E5%8F%96%E5%88%B0%E4%BA%86%E5%AE%8C%E6%95%B4%E7%9A%84%E6%95%B0%E6%8D%AE.png)
+  * 5. selenium的元素定位
+    * 
 * 17.2 Phantomjs
 * 17.3 Chrome handlers
       
