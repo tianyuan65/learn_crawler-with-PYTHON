@@ -11,6 +11,7 @@ url='https://www.taobao.com/'
 # 访问淘宝首页
 response=urllib.request.urlopen(url)
 content=response.read().decode('utf-8')
+# 无法爬取到所有的信息，因为毕竟是模拟浏览器向服务器发送请求，所以服务器方知道用户是在进行爬取操作，返回的结果并不是完整的数据。
 print(content)
 
 
