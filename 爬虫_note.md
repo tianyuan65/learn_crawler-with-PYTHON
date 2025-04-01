@@ -408,10 +408,17 @@
           url='https://taobao.com'
           driver.get(url)
         ```
-    * 随后就可以调用page_source来获取网页源码，可以打印出来查看是否与浏览器中查看到的源码一致。运行后，访问的网址就会被打开，控制台中也会打印出完整的数据，如下图可以查看到是完整的全部数据，之前用请求对象定制的方式无法爬取到。点击运行后会打开访问地址，但也会闪退，这是因为selenium的版本过高，需要跳到3.3.x版本，但我懒得在下一次selenium，就不试了。
+    * 随后就可以调用page_source来获取网页源码，可以打印出来查看是否与浏览器中查看到的源码一致。运行后，访问的网址就会被打开，控制台中也会打印出完整的数据，如下图可以查看到是完整的全部数据，之前用请求对象定制的方式无法爬取到。点击运行后会打开访问地址，但也会闪退，这是因为selenium的版本过高，需要跳到3.3.x版本，但我懒得在下一次selenium，就不试了。想不闪退可以在文件最后加个死循环或者打印input语句，在控制台输入内容前，不会退出，亲测有效。
       * ![通过selenium爬取淘宝数据，可查看到是获取到了完整的数据](imgs/%E9%80%9A%E8%BF%87selenium%E7%88%AC%E5%8F%96%E6%B7%98%E5%AE%9D%E6%95%B0%E6%8D%AE%EF%BC%8C%E5%8F%AF%E6%9F%A5%E7%9C%8B%E5%88%B0%E6%98%AF%E8%8E%B7%E5%8F%96%E5%88%B0%E4%BA%86%E5%AE%8C%E6%95%B4%E7%9A%84%E6%95%B0%E6%8D%AE.png)
   * 5. selenium的元素定位
-    * 
+    * 元素定位：自动化要做的就是模拟鼠标和键盘来操作这些元素，点击、输入等等，操作这些元素前，首先要找到它们，WebDriver提供很多定位元素的方法。
+    * 方法：
+      * find_element(By.ID,'idValue')/find_element('id','idValue')：唯一元素-根据id值查找对象，两种方法皆可。
+      * find_element(By.NAME,'nameValue')/find_element('name','nameValue')：根据标签属性的属性值来获取对象。
+        * ![通过name属性的值查找对象](imgs/%E9%80%9A%E8%BF%87name%E5%B1%9E%E6%80%A7%E7%9A%84%E5%80%BC%E6%9F%A5%E6%89%BE%E5%AF%B9%E8%B1%A1.png)
+      * find_element(By.XPATH,'//标签名[属性名="属性值"]')/find_element('xpath','//标签名[属性名="属性值"]')：嵌套结构-根据xpath语句获取对象，哪个属性方便就用哪个，一般用id属性。
+      * find_element(By.TAG_NAME,'标签名')：简单场景，因此慎用-根据标签名获取对象，也可以用CLASS_NAME，但建议慎用，因为鼠标放上去或点击后，其值容易发生变化。
+      * find_element(By.CSS_SELECTOR,'attributeValue')：复杂选择-使用的是bs4的语法来获取东西，在情况叫复杂时可以说是最优选择，性能也是最优的。
 * 17.2 Phantomjs
 * 17.3 Chrome handlers
       

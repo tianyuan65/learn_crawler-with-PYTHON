@@ -16,11 +16,13 @@ driver=webdriver.Chrome(service=service)
 
 # 3. 访问网址
 url='https://taobao.com'
+# 向访问地址发送get请求，来获取数据
 driver.get(url)
 
 # page_source获取网页源码
 content=driver.page_source
 print(content)
 
+print(input('enter one name'))
 # 4.0不需要写path，但是要chromedriver的配置驱动的环境变量！！！
 # Chrome里面不用放path，什么都不要放，不然有可能报错。
