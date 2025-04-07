@@ -410,15 +410,52 @@
         ```
     * 随后就可以调用page_source来获取网页源码，可以打印出来查看是否与浏览器中查看到的源码一致。运行后，访问的网址就会被打开，控制台中也会打印出完整的数据，如下图可以查看到是完整的全部数据，之前用请求对象定制的方式无法爬取到。点击运行后会打开访问地址，但也会闪退，这是因为selenium的版本过高，需要跳到3.3.x版本，但我懒得在下一次selenium，就不试了。想不闪退可以在文件最后加个死循环或者打印input语句，在控制台输入内容前，不会退出，亲测有效。
       * ![通过selenium爬取淘宝数据，可查看到是获取到了完整的数据](imgs/%E9%80%9A%E8%BF%87selenium%E7%88%AC%E5%8F%96%E6%B7%98%E5%AE%9D%E6%95%B0%E6%8D%AE%EF%BC%8C%E5%8F%AF%E6%9F%A5%E7%9C%8B%E5%88%B0%E6%98%AF%E8%8E%B7%E5%8F%96%E5%88%B0%E4%BA%86%E5%AE%8C%E6%95%B4%E7%9A%84%E6%95%B0%E6%8D%AE.png)
-  * 5. selenium的元素定位
-    * 元素定位：自动化要做的就是模拟鼠标和键盘来操作这些元素，点击、输入等等，操作这些元素前，首先要找到它们，WebDriver提供很多定位元素的方法。
-    * 方法：
-      * find_element(By.ID,'idValue')/find_element('id','idValue')：唯一元素-根据id值查找对象，两种方法皆可。
-      * find_element(By.NAME,'nameValue')/find_element('name','nameValue')：根据标签属性的属性值来获取对象。
-        * ![通过name属性的值查找对象](imgs/%E9%80%9A%E8%BF%87name%E5%B1%9E%E6%80%A7%E7%9A%84%E5%80%BC%E6%9F%A5%E6%89%BE%E5%AF%B9%E8%B1%A1.png)
-      * find_element(By.XPATH,'//标签名[属性名="属性值"]')/find_element('xpath','//标签名[属性名="属性值"]')：嵌套结构-根据xpath语句获取对象，哪个属性方便就用哪个，一般用id属性。
-      * find_element(By.TAG_NAME,'标签名')：简单场景，因此慎用-根据标签名获取对象，也可以用CLASS_NAME，但建议慎用，因为鼠标放上去或点击后，其值容易发生变化。
-      * find_element(By.CSS_SELECTOR,'attributeValue')：复杂选择-使用的是bs4的语法来获取东西，在情况叫复杂时可以说是最优选择，性能也是最优的。
+    * 4-1 selenium的元素定位
+     * 元素定位：自动化要做的就是模拟鼠标和键盘来操作这些元素，点击、输入等等，操作这些元素前，首先要找到它们，WebDriver提供很多定位元素的方法。
+       * 方法：
+         * find_element(By.ID,'idValue')/find_element('id','idValue')：唯一元素-根据id值查找对象，两种方法皆可。
+         * find_element(By.NAME,'nameValue')/find_element('name','nameValue')：根据标签属性的属性值来获取对象。
+           * ![通过name属性的值查找对象](imgs/%E9%80%9A%E8%BF%87name%E5%B1%9E%E6%80%A7%E7%9A%84%E5%80%BC%E6%9F%A5%E6%89%BE%E5%AF%B9%E8%B1%A1.png)
+         * find_element(By.XPATH,'//标签名[属性名="属性值"]')/find_element('xpath','//标签名[属性名="属性值"]')：嵌套结构-根据xpath语句获取对象，哪个属性方便就用哪个，一般用id属性。
+         * find_element(By.TAG_NAME,'标签名')：简单场景，因此慎用-根据标签名获取对象，也可以用CLASS_NAME，但建议慎用，因为鼠标放上去或点击后，其值容易发生变化。
+         * find_element(By.CSS_SELECTOR,'attributeValue')：复杂选择-使用的是bs4的语法来获取东西，在情况叫复杂时可以说是最优选择，性能也是最优的。
+       * 五种方法中最常用的是，By.ID，By.XPATH，By.CSS_SELECTOR这三种，NAME是因为属性名叫name的不多，TAG_NAME或CLASS_NAME是因为叫同一标签名的太多，不好定位，且CLASS_NAME的值可能随时会出现变化。
+    * 4-2 询问元素信息
+      * 获取元素属性：.get_attribute('属性名')
+        * 调用.get_attribute()，只要传入具体标签的准确的属性名，可以获取到对象内指定标签的所有属性的值。
+          * ```
+              input=browser.find_element(By.ID,'su')
+              print(input.get_attribute('class')) #bg s_btn
+              print(input.get_attribute('value')) #百度一下
+              print(input.get_attribute('type'))  #submit
+            ```
+      * 获取元素文本：.text
+        * 调用text，可以获取到对象的文本内容，只不过，要获取的文本内容不可以是自闭和标签，比如input，因为这是个输入框标签，起初啥也没有，也就无法获取到
+          * ```
+              news=browser.find_element(By.LINK_TEXT,'新闻')
+              print(news.text)    #新闻
+            ```
+      * 获取标签名：.tag_name
+        * 调用tag_name可以获取到对象的标签名，举两个例子，一个是百度输入框的，一个是页面右上侧地图的。
+          * ```
+              # 获取百度输入框按钮的标签名
+              input=browser.find_element(By.ID,'su')
+              print(input.tag_name)   #input
+              # 获取页面右上侧地图的标签名
+              map=browser.find_element(By.LINK_TEXT,'地图')
+              print(map.tag_name) #a
+            ```
+    * 4-3 交互
+      * 点击：click()
+      * 输入：send_keys()
+      * 后退操作：browser.back()
+      * 前进操作：browser.forward()
+      * 模拟JS滚动：
+        * js='document.documentElement.scrollTop=100000'
+        * browser.execute_script(js)
+      * 获取网页代码：page_source
+      * 退出：browser.quit()
+      * 需求：从百度主页面开始，在文本框中输入人名后，点击百度一下按钮，随后往下滑，滑到页面最底部，然后点击下一页，但又想回到上一页，进行后退操作，随后又回到刚才的那一页，进行前进操作，再滑到第二页的最底部
 * 17.2 Phantomjs
 * 17.3 Chrome handlers
       
