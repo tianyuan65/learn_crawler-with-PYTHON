@@ -466,7 +466,27 @@
           * (6). 目前是在第一页的顶部，再点击左上侧前进按钮，回到第二页，调用sleep方法，睡两秒；
           * (7). 目前是在第二页的顶部，最后退出。
 * 17.2 Phantomjs
-* 17.3 Chrome handlers
+  * 1. 什么是Phantomjs？
+    * (1). 是一个无界面的浏览器
+    * (2). 支持页面元素查找，js的执行等
+    * (3). 由于不进行css和gui渲染，运行效率要比真实的浏览器要快很多
+    * (4). 但不推荐使用PhantomJS，因为官方已停止更新并有安全隐患。旧项目、老系统上仍可运行，但新项目不建议使用，因为不兼容现代JS或CSS，且无法支持最新的网页标准。
+  * 2. 如何使用Phantomjs？
+    * (1). 获取PhantomJS.exe文件路径path
+    * (2). browser=webdriver.PhantomJS(path)
+    * (3). browser.get(url)
+    * 扩展：保存屏幕快照:browser.save_screenshot('baidu.png')
+    * 其实就是换了一个驱动器使用，其他步骤和操作和selenium一样，但就算写了也不会正常运行，因PhantomJS已停用，非要用的话，可以将Python和Chrome及ChromeDriver的版本降一下，但很显然实在是没必要。
+      * ![PhantomJS的基本使用，因PhantomJS不再适用，且这么写了也会报错，就放个图](imgs/PhantomJS%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%EF%BC%8C%E5%9B%A0PhantomJS%E4%B8%8D%E5%86%8D%E9%80%82%E7%94%A8%EF%BC%8C%E4%B8%94%E8%BF%99%E4%B9%88%E5%86%99%E4%BA%86%E4%B9%9F%E4%BC%9A%E6%8A%A5%E9%94%99%EF%BC%8C%E5%B0%B1%E6%94%BE%E4%B8%AA%E5%9B%BE.png)
+* 17.3 Chrome handless
+  * 1. 系统要求：
+    * Chrome
+      * Unix\Linux 系统需要 chrome=>59
+      * Windows 系统需要 chrome=>60
+    * Python3.6
+    * Selenium==3.4.*
+    * ChromeDriver==2.31
+  * 2. 配置：
       
 
 
