@@ -479,14 +479,51 @@
     * 其实就是换了一个驱动器使用，其他步骤和操作和selenium一样，但就算写了也不会正常运行，因PhantomJS已停用，非要用的话，可以将Python和Chrome及ChromeDriver的版本降一下，但很显然实在是没必要。
       * ![PhantomJS的基本使用，因PhantomJS不再适用，且这么写了也会报错，就放个图](imgs/PhantomJS%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%EF%BC%8C%E5%9B%A0PhantomJS%E4%B8%8D%E5%86%8D%E9%80%82%E7%94%A8%EF%BC%8C%E4%B8%94%E8%BF%99%E4%B9%88%E5%86%99%E4%BA%86%E4%B9%9F%E4%BC%9A%E6%8A%A5%E9%94%99%EF%BC%8C%E5%B0%B1%E6%94%BE%E4%B8%AA%E5%9B%BE.png)
 * 17.3 Chrome handless
+  * Chrome-handless模式，Google针对Chrome浏览器59版新增加的一个模式，可以让用户不打开UI界面(如百度一下的页面)的情况下使用Chrome浏览器，所以运行效果与Chrome保持完美一致，效率比用户直接使用Chrome更高。
   * 1. 系统要求：
     * Chrome
-      * Unix\Linux 系统需要 chrome=>59
-      * Windows 系统需要 chrome=>60
+      * Unix\Linux 系统需要 chrome>=59
+      * Windows 系统需要 chrome>=60
     * Python3.6
     * Selenium==3.4.*
     * ChromeDriver==2.31
   * 2. 配置：
+    * ```
+        from selenium import webdriver
+        from selenium.webdriver.chrome.options import Options
+        
+        options=Options()
+        options.add_argument('--headless')
+        options.add_argument('--disable-gpu')
+        
+        path=r'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe'
+        chrome_options.binary_location=path
+      
+        browser=webdriver.Chrome(options=options)
+      
+        browser.get('http://www.baidu.com/')
+      ``` 
+    * 最近因为Chrome浏览器更新了，但ChromeDriver的版本没跟上，按照上面的配置运行代码，出现了版本不匹配，需要更新ChromeDriver版本的提示，去安装谷歌驱动的映射表下载最新版即可。
+      * ![谷歌驱动和谷歌浏览器版本不匹配时出现的提示](imgs/%E8%B0%B7%E6%AD%8C%E9%A9%B1%E5%8A%A8%E5%92%8C%E8%B0%B7%E6%AD%8C%E6%B5%8F%E8%A7%88%E5%99%A8%E7%89%88%E6%9C%AC%E4%B8%8D%E5%8C%B9%E9%85%8D%E6%97%B6%E5%87%BA%E7%8E%B0%E7%9A%84%E6%8F%90%E7%A4%BA.png)
+      * ![谷歌驱动和谷歌浏览器版本匹配时正常运行](imgs/%E8%B0%B7%E6%AD%8C%E9%A9%B1%E5%8A%A8%E5%92%8C%E8%B0%B7%E6%AD%8C%E6%B5%8F%E8%A7%88%E5%99%A8%E7%89%88%E6%9C%AC%E5%8C%B9%E9%85%8D%E6%97%B6%E6%AD%A3%E5%B8%B8%E8%BF%90%E8%A1%8C.png)
+  * 3. 配置封装
+    * 创建一个函数，在函数内进行创建驱动的操作，最后返回浏览器/驱动对象，在需要用到的时候直接调用shareBrowser函数即可。
+    * ```
+        def shareBrowser():
+            options = Options()
+            options.add_argument('--headless')
+            options.add_argument('--disable-gpu')
+            # 创建浏览器/驱动对象
+            browser = webdriver.Chrome(options=options)
+            # 返回驱动
+            return browser
+        # 调用shareBrowser函数
+        browser=shareBrowser()
+        # 调用get方法，传入访问地址作为参数来获取数据
+        browser.get('http://www.baidu.com/')
+        print(browser)  #<selenium.webdriver.chrome.webdriver.WebDriver (session="c94919a690f79a81a61bf73fa650c78e")>
+      ```
+  * PhantomJS和Chrome handless的独特之处就是无界面操作，selenium虽然可用，但是会加载网页页面，速度肯定会跟不上无界面的。目前PhantomJS虽已停用，但Chrome handless还是可用的。
       
 
 
