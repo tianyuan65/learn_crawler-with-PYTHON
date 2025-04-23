@@ -524,7 +524,33 @@
         print(browser)  #<selenium.webdriver.chrome.webdriver.WebDriver (session="c94919a690f79a81a61bf73fa650c78e")>
       ```
   * PhantomJS和Chrome handless的独特之处就是无界面操作，selenium虽然可用，但是会加载网页页面，速度肯定会跟不上无界面的。目前PhantomJS虽已停用，但Chrome handless还是可用的。
-      
+
+## 十八、requests
+* 18.1 基本使用
+  * 1. 介绍：Requests是唯一一个非转基因的Python HTTP库，人类可以安全使用，但现在收费。
+  * 2. 文档
+    * 官方文档：http://cn.python.requests.org/zh_CN/lastest/
+    * 快速上手：http://cn.python.requests.org/zh_CN/lastest/user.quickstrat.html
+  * 3. 安装
+    * pip install requests
+  * 4. response的属性及类型--一个类型六个属性
+    * 一个类型--请求对象定制的方式获取到的response的类型是HTTPResponse类型，与其不同，用requests获取的数据类型是Response类型
+      * ![用requests获取的response的数据类型是Response类型](imgs/%E7%94%A8requests%E8%8E%B7%E5%8F%96%E7%9A%84response%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E6%98%AFResponse%E7%B1%BB%E5%9E%8B.png)
+    * 六个属性
+      * .text--调用.text可获取到网页源码，但可能会有乱码，不想看见乱码，就可以设置编码格式，即可得到完整又好看的源码。
+        * ![用requests获取的数据调用text返回的网页源码可能会有乱码](imgs/%E7%94%A8requests%E8%8E%B7%E5%8F%96%E7%9A%84%E6%95%B0%E6%8D%AE%E8%B0%83%E7%94%A8text%E8%BF%94%E5%9B%9E%E7%9A%84%E7%BD%91%E9%A1%B5%E6%BA%90%E7%A0%81%E5%8F%AF%E8%83%BD%E4%BC%9A%E6%9C%89%E4%B9%B1%E7%A0%81.png)
+      * .encoding--用于设置编码格式，图片
+        * ![设置好编码格式，设置为utf-8就可以得到完整又好看的网页源码](imgs/%E8%AE%BE%E7%BD%AE%E5%A5%BD%E7%BC%96%E7%A0%81%E6%A0%BC%E5%BC%8F%EF%BC%8C%E8%AE%BE%E7%BD%AE%E4%B8%BAutf-8%E5%B0%B1%E5%8F%AF%E4%BB%A5%E5%BE%97%E5%88%B0%E5%AE%8C%E6%95%B4%E5%8F%88%E5%A5%BD%E7%9C%8B%E7%9A%84%E7%BD%91%E9%A1%B5%E6%BA%90%E7%A0%81.png)
+      * .url--可以得到url地址
+      * .content--可以获取到网页源码，但是是二进制的，所以实在是没必要，想要获取源码调用text更方便，实在是没必要遭这份罪
+        * ![content用于获取网页源码，只不过是二进制的](imgs/content%E7%94%A8%E4%BA%8E%E8%8E%B7%E5%8F%96%E7%BD%91%E9%A1%B5%E6%BA%90%E7%A0%81%EF%BC%8C%E5%8F%AA%E4%B8%8D%E8%BF%87%E6%98%AF%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%9A%84.png)
+      * .status_code--返回响应的状态码
+      * .headers--返回响应的头信息
+        * ![获取响应的头信息](imgs/%E8%8E%B7%E5%8F%96%E5%93%8D%E5%BA%94%E7%9A%84%E5%A4%B4%E4%BF%A1%E6%81%AF.png)
+* 18.2 get请求
+* 18.3 post请求
+* 18.4 代理
+* 18.5 cookie定制
 
 
 * 当然是失败的，目标计算机甚至在积极地拒绝，但通过代理池可以更高效地工作，现实中公司会提供一个账号可以得到高匿又成量的代理IP。

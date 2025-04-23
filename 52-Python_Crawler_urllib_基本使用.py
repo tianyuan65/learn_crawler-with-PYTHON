@@ -12,6 +12,8 @@ url='http://www.baidu.com'
 
 # 2. 模拟浏览器向服务器发送请求，并声明一个变量接收服务器返回的反馈
 response=urllib.request.urlopen(url)
+# 从服务器返回的数据的数据类型是HTTPResponse
+# print(type(response))   #<class 'http.client.HTTPResponse'>
 
 # 3. 接收的response里有响应头、响应体、响应行等，需要做的是从中提取响应中的页面的源码
 # 调用read方法，提取页面源码，声明变量content来接收其内容，返回的是字节形式的二进制数据，
