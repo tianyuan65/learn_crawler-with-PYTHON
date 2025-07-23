@@ -542,13 +542,35 @@
       * .encoding--用于设置编码格式，图片
         * ![设置好编码格式，设置为utf-8就可以得到完整又好看的网页源码](imgs/%E8%AE%BE%E7%BD%AE%E5%A5%BD%E7%BC%96%E7%A0%81%E6%A0%BC%E5%BC%8F%EF%BC%8C%E8%AE%BE%E7%BD%AE%E4%B8%BAutf-8%E5%B0%B1%E5%8F%AF%E4%BB%A5%E5%BE%97%E5%88%B0%E5%AE%8C%E6%95%B4%E5%8F%88%E5%A5%BD%E7%9C%8B%E7%9A%84%E7%BD%91%E9%A1%B5%E6%BA%90%E7%A0%81.png)
       * .url--可以得到url地址
-      * .content--可以获取到网页源码，但是是二进制的，所以实在是没必要，想要获取源码调用text更方便，实在是没必要遭这份罪
+      * .content--可以获取到网页源码，只不过是二进制的，所以实在是没必要，想要获取源码调用text更方便，实在是没必要遭这份罪
         * ![content用于获取网页源码，只不过是二进制的](imgs/content%E7%94%A8%E4%BA%8E%E8%8E%B7%E5%8F%96%E7%BD%91%E9%A1%B5%E6%BA%90%E7%A0%81%EF%BC%8C%E5%8F%AA%E4%B8%8D%E8%BF%87%E6%98%AF%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%9A%84.png)
       * .status_code--返回响应的状态码
       * .headers--返回响应的头信息
         * ![获取响应的头信息](imgs/%E8%8E%B7%E5%8F%96%E5%93%8D%E5%BA%94%E7%9A%84%E5%A4%B4%E4%BF%A1%E6%81%AF.png)
 * 18.2 get请求
+  * request.get()
+  * 百度一下，北京：
+    * ```
+        import requests
+        url='http://www.baidu.com/s?'
+        headers={'user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36'}
+        data={
+            'wd':'北京'
+        }
+        response=requests.get(url=url,params=data,headers=headers)
+        content=response.text
+        print(content)
+      ```
+    * 总结：
+      * 参数使用params传递
+      * 参数无需urlencode编码
+      * 不需要请求对象定制
+      * 请求资源路径，就是url中的 ? 可以加，也可以删除掉，加或不加并没有太大的区别
+      * 只要能获取到数据用什么手段都无所谓，urllib和request都可以
 * 18.3 post请求
+  * request.post()
+  * 百度翻译：
+    * 
 * 18.4 代理
 * 18.5 cookie定制
 
