@@ -570,7 +570,27 @@
 * 18.3 post请求
   * request.post()
   * 百度翻译：
-    * 
+    * ```
+        import requests
+        url='https://fanyi.baidu.com/sug'
+        headers={'user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36'}
+        data={
+            'kw':'eye'
+        }
+        response=requests.post(url=url,data=data,headers=headers)
+        content=response.text
+        print(content)
+        # 进一步解码
+        import json
+        obj=json.loads(content)
+        print(obj)
+      ```
+      * ![requests的post请求.png](imgs/requests%E7%9A%84post%E8%AF%B7%E6%B1%82.png)
+    * 总结：
+      * post请求不需要编解码
+      * post的请求参数是data
+      * 不需要请求对象的定制
+      * 不同于urllib的post请求，requests的post请求使用起来更加方便，因为requests唯一一个非转基因的、Python自己封装的Python库，因此使用起来没有那么多的顾虑
 * 18.4 代理
 * 18.5 cookie定制
 
